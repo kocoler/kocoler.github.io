@@ -1,0 +1,217 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Golang 官方标准库学习"><meta name="keywords" content="Go"><meta name="author" content="kocoler"><meta name="copyright" content="kocoler"><title>Golang 官方标准库学习 | 喫茶白玉楼</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="manifest" href="/manifest.json"><link rel="manifest" href="/manifest.json"><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?a917013a276e2f543da604a6f2bba5a5";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="喫茶白玉楼" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Golang-官方标准库学习"><span class="toc-number">1.</span> <span class="toc-text">Golang 官方标准库学习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是golang官方标准库"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">什么是golang官方标准库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#进入本体"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">进入本体</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars0.githubusercontent.com/u/27053742?s=400&amp;u=2710ee8c0e11eb9cb9f81b84ad2cfc82baa1f1c2&amp;v=4"></div><div class="author-info__name text-center">kocoler</div><div class="author-info__description text-center">人活着就是为了库洛姆</div><div class="follow-button"><a href="https://github.com/kocoler" target="_blank" rel="noopener">Github</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">4</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">5</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://s1.ax1x.com/2020/05/30/tQTcKe.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">喫茶白玉楼</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search"></i><span> Search</span></a></span></div><div id="post-info"><div id="post-title">Golang 官方标准库学习</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-12-07</time><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">4.3k</span><span class="post-meta__separator">|</span><span>Reading time: 13 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h1 id="Golang-官方标准库学习"><a href="#Golang-官方标准库学习" class="headerlink" title="Golang 官方标准库学习"></a>Golang 官方标准库学习</h1><p>本文主要介绍Go源码中带有的所有官方标准库，很基本<br>内容还比较少，有机会会继续更新</p>
+<h4 id="什么是golang官方标准库"><a href="#什么是golang官方标准库" class="headerlink" title="什么是golang官方标准库"></a>什么是golang官方标准库</h4><ol>
+<li><p>这些包一般储存在GOROOT路径下的src文件夹中，并且是以.go为后缀名的（有可能你会在pkg/中找到一些.a后缀的文件 <a href="https://www.solvusoft.com/zh-cn/file-extensions/file-extension-a" target="_blank" rel="noopener">拓展.a</a><br>例如用apt-get安装后在ubuntu下的路径：</p>
+<p>/usr/lib/go-1.10/src</p>
+</li>
+</ol>
+<ol start="2">
+<li>如何简便的学习/观察这些库<br> <a href="https://studygolang.com/pkgdoc" target="_blank" rel="noopener">Go语言中文网</a><br><a href="https://golang.google.cn/pkg/" target="_blank" rel="noopener">官方英文</a><br>（当然本地观看的办法也很多）</li>
+</ol>
+<h4 id="进入本体"><a href="#进入本体" class="headerlink" title="进入本体"></a>进入本体</h4><ol>
+<li><strong>net</strong><br> 从我们比较熟悉的网络包入手<br> 这个包主要是与网络相关，算是Go标准库中比较大型（也比较常用的）包<br> 主要包含了一些底层的协议实现<br> net包提供的函数和类型可用于使用Unix域以及网络socket通信、TCP/IP和UDP编程。<br>  <strong><a href="https://studygolang.com/static/pkgdoc/pkg/net_http.htm" target="_blank" rel="noopener">net/http</a></strong><br> http主要包提供了HTTP客户端和服务端的实现。<br> 包括创建服务器，路由<br> http目录下其他的子库：<br> <strong><a href="https://studygolang.com/static/pkgdoc/pkg/net_http_cgi.htm" target="_blank" rel="noopener">net/http/cgi</a><br> <a href="https://studygolang.com/static/pkgdoc/pkg/net_http_cookiejar.htm" target="_blank" rel="noopener">net/http/cookiejar</a><br> <a href="https://studygolang.com/static/pkgdoc/pkg/net_http_fcgi.htm" target="_blank" rel="noopener">net/http/fcgi</a><br> <a href="https://studygolang.com/static/pkgdoc/pkg/net_http_httptest.htm" target="_blank" rel="noopener">net/http/httptest</a><br> <a href="https://studygolang.com/static/pkgdoc/pkg/net_http_httptrace.htm" target="_blank" rel="noopener">net/http/httptrace</a><br> <a href="https://studygolang.com/static/pkgdoc/pkg/net_http_httputil.htm" target="_blank" rel="noopener">net/http/httputil</a><br> <a href="https://studygolang.com/static/pkgdoc/pkg/net_http_pprof.htm" target="_blank" rel="noopener">net/http/pprof</a></strong></li>
+</ol>
+<p>​    <strong><a href="https://studygolang.com/static/pkgdoc/pkg/net_url.htm" target="_blank" rel="noopener">net/url</a></strong><br>​    主要与解析/处理URL有关，比如url字符串解析、编码<br>​    net目录下其他子库：<br>​    <strong><a href="https://studygolang.com/static/pkgdoc/pkg/net_mail.htm" target="_blank" rel="noopener">net/mail</a><br>​    <a href="https://studygolang.com/static/pkgdoc/pkg/net_rpc.htm" target="_blank" rel="noopener">net/rpc</a><br>​    <a href="https://studygolang.com/static/pkgdoc/pkg/net_rpc_jsonrpc.htm" target="_blank" rel="noopener">net/rpc/jsonrpc</a><br>​    <a href="https://studygolang.com/static/pkgdoc/pkg/net_smtp.htm" target="_blank" rel="noopener">net/smtp</a><br>​    <a href="https://studygolang.com/static/pkgdoc/pkg/net_textproto.htm" target="_blank" rel="noopener">net/textproto</a></strong></p>
+<ol start="2">
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/fmt.htm" target="_blank" rel="noopener">fmt</a></strong><br>从入门到弃坑，都会使用的fmt库<br>fmt库主要涉及go的格式化操作，并且主要是字符串的格式化<br>包含最常见的格式化输入输出到控制台，当作目标函数的参数等等（debug也比较建议用log<br>fmt并没有再延伸的标准库</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/log.htm" target="_blank" rel="noopener">log</a></strong><br>实现简易/简单的日志服务，是并发安全的<br>（最主要的是还带时间哈哈哈哈<br>调用会打印每条日志信息的日期、时间，默认输出到标准错误。<br>Print系列函数包括控制台的打印（使用参考fmt包<br>Fatal系列函数会在写入日志信息后调用os.Exit(1)<br>Panic系列函数会在写入日志信息后panic<br>适合一般情况下日志的记录，适合一般情况下对错误的处理，适合一般情况下的debug<br>log目录下的子库：</p>
+</li>
+</ol>
+<p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/log_syslog.htm" target="_blank" rel="noopener">log/syslog</a></strong></p>
+<ol start="4">
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/sort.htm" target="_blank" rel="noopener">sort</a></strong><br>方便的排序函数，主要是排序各式各样切片类型<br>主流的排序算法：插入排序，堆排序，快排，归并排序都有实现<br>并且一次排序不一定只调用一种函数，只要实现了 sort.Interface 定义的三个方法：获取数据集合长度的 Len() 方法、比较两个元素大小的 Less() 方法和交换两个元素位置的 Swap() 方法，就可以顺利对数据集合进行排序。sort 包会根据实际数据自动选择高效的排序算法。<br>当然，不做更多的要求的调用也很方便<br>还有search功能，可以同时支持更神奇的操作<br>PS1：sort包对不同类型的实现好像略有不同<br>PS2：sort包好像普通的排序不是稳定的，为此有特别提供稳定的stable函数<br>个人觉得是可以深入了解的库<br>没有子库</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/strings.htm" target="_blank" rel="noopener">strings</a></strong><br>实现用于操作字符的简单函数，即主要包含针对字符串操作的函数<br>为某些较复杂（麻烦）日常还会经常用到的一些需求提供方便的实现<br>比如：字符串分割，字符串匹配系列，字符串读取以及字符串替换/修剪等等<br>PS1：<strong>Go 中字符串是不可变的</strong><br>这个包里还声明了两个跟io包关系密切的类型:Reader和Replacer<br>strings包没有字库</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/io.htm" target="_blank" rel="noopener">io</a></strong><br><del>自然</del>的过渡到io包<br>这个包经常会根其他的包联动<br><del>谈到io，自然要谈到I/O</del></p>
+</li>
+</ol>
+<blockquote>
+<p>同时，这里补充以下对Go中I/O的一点简述：</p>
+<ul>
+<li>io 为 IO 原语（I/O primitives）提供基本的接口</li>
+<li>io/ioutil 封装一些实用的 I/O 函数</li>
+<li>fmt 实现格式化 I/O，类似 C 语言中的 printf 和 scanf</li>
+<li>bufio 实现带缓冲I/O</li>
+</ul>
+</blockquote>
+<p>io包中声明了两个很强大，很厉害的类型(接口）：Reader和Writer<br>（其实这个包声明了很多类型，都很强的<br>io包中提供了供日常使用的很多读写功能，对常用资源（内存，文件等等）的读写的接口实现，使得很多操作变得简便，灵活性高（包括但不限函数间）<br>PS1: 由于这些被接口包装的I/O原语是由不同的低级操作实现，因此，在另有声明之前不该假定它们的并行执行是安全的。<br><strong><a href="https://studygolang.com/static/pkgdoc/pkg/io_ioutil.htm" target="_blank" rel="noopener">io/ioutil</a></strong><br>这个包很实用，很实用，很方便，很方便<br>常用函数：</p>
+<pre><code>func ReadAll(r io.Reader)([]byte,error）
+func ReadFile(filename string)([]byte,error)
+func WriteFile(filename string,data []byte,perm os.FileMode) error</code></pre><ol start="7">
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/bytes.htm" target="_blank" rel="noopener">bytes</a></strong><br>这个包主要是和Go中的[]byte类型的处理有关<br>string,bytes 联系蛮紧密的<br>因此，bytes包中有很多和strings相仿的函数，一定程度上可以参考string包学习（但其实大概没这个必要<br>还有两个类型Reader和<strong>Buffer</strong><br>Buffer本身是一个缓存，没有底层数据，缓存的容量会根据需要自动调整</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/errors.htm" target="_blank" rel="noopener">errors</a></strong><br>非常短<br>包含了实现创建错误值的函数（不过常见的error类型并不是在这里声明的！<br>只是包含了对错误的简单处理，相对的，个性化处理变得简单<br>很短，目录下没有子库</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/encoding.htm" target="_blank" rel="noopener">encoding</a></strong></p>
+<blockquote>
+<p>encoding包定义了供其它包使用的可以将数据在字节水平和文本表示之间转换的接口。encoding/gob、encoding/json、encoding/xml三个包都会检查使用这些接口。因此，只要实现了这些接口一次，就可以在多个包里使用。标准包内建类型time.Time和net.IP都实现了这些接口。接口是成对的，分别产生和还原编码后的数据。</p>
+</blockquote>
+</li>
+</ol>
+<p>以上是引用的官网的解释<br>encoding包主要是关于常用的各种数据格式的转化操作，子库包括了json,xml,csv,binary等等的转化操作<br>（解析和转化功能还是很强的<br>涉及一些和数据类型相关的知识<br>当然不同的类型实现方法/接收类型也很不一样<br>encoding目录下的子库：<br><strong><a href="https://studygolang.com/static/pkgdoc/pkg/encoding_ascii85.htm" target="_blank" rel="noopener">encoding/ascii85</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/encoding_asn1.htm" target="_blank" rel="noopener">encoding/asn1</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/encoding_base32.htm" target="_blank" rel="noopener">encoding/base32</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/encoding_base64.htm" target="_blank" rel="noopener">encoding/base64</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/encoding_binary.htm" target="_blank" rel="noopener">encoding/binary</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/encoding_csv.htm" target="_blank" rel="noopener">encoding/csv</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/encoding_gob.htm" target="_blank" rel="noopener">encoding/gob</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/encoding_hex.htm" target="_blank" rel="noopener">encoding/hex</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/encoding_json.htm" target="_blank" rel="noopener">encoding/json</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/encoding_pem.htm" target="_blank" rel="noopener">encoding/pem</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/encoding_xml.htm" target="_blank" rel="noopener">encoding/xml</a></strong></p>
+<ol start="10">
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/time.htm" target="_blank" rel="noopener">time</a></strong><br>time包是关于日期时间的包，提供了时间的现实和计量等等的功能，是个强大的时间接口<br>PS：Go中采用公历，unix timestamp 是int64<br>time包目录下没有子库</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/runtime.htm" target="_blank" rel="noopener">runtime</a></strong><br>与Go运行时相关的实现，可以通过他的某些函数来控制goroutine<br>涉及计算机底层的堆栈<br>Go的并发很强有一部分原因与runtime的强大有关<br>runtime目录下的子库：</p>
+</li>
+</ol>
+<p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/runtime_cgo.htm" target="_blank" rel="noopener">runtime/cgo</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/runtime_debug.htm" target="_blank" rel="noopener">runtime/debug</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/runtime_pprof.htm" target="_blank" rel="noopener">runtime/pprof</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/runtime_race.htm" target="_blank" rel="noopener">runtime/race</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/runtime_trace.htm" target="_blank" rel="noopener">runtime/trace</a></strong></p>
+<ol start="12">
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/sync.htm" target="_blank" rel="noopener">sync</a></strong><br>谈起并发，sync包也很常用<br>sync包提供了基本的同步基元，但Go更推荐以channel的方式实现并发控制<br>常用的互斥锁：Mutex<br>线程控制：WaitGroup<br>还包含了一个Pool临时对象池<br>sync的原子操作包含在<strong><a href="https://studygolang.com/static/pkgdoc/pkg/sync_atomic.htm" target="_blank" rel="noopener">sync/atomic</a></strong>下</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/strconv.htm" target="_blank" rel="noopener">strconv</a>(string convert)</strong><br>字符串转化<br>strconv提供了关于字符串与其他类型转化的功能实现方法<br>整型：Itoa，Atio<br>浮点型：ParseFloat,FormatFloat<br>布尔型：ParseBool,FormatBool<br>有append系列<br>有Unicode和ASCII的操作<br>strconv目录下没有子库</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/unicode.htm" target="_blank" rel="noopener">unicode</a></strong><br>与unicode编码有关的基本函数<br>子库可以实现unicode（rune）与utf8（byte），utf16（int16）之间的转化</p>
+</li>
+</ol>
+<p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/unicode_utf16.htm" target="_blank" rel="noopener">unicode/utf16</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/unicode_utf8.htm" target="_blank" rel="noopener">unicode/utf8</a></strong></p>
+<ol start="15">
+<li><strong><a href="https://studygolang.com/static/pkgdoc/pkg/regexp.htm" target="_blank" rel="noopener">regexp</a></strong><br>正则表达式可能会迟到，但绝不会缺席！<br>regexp实现了正则表达式搜索<br>编译，匹配，搜索，替换<blockquote>
+<p>本包的正则表达式保证搜索复杂度为O(n)<br><strong>很强</strong><br>Regexp类型提供了多达16个方法，用于匹配正则表达式并获取匹配的结果。</p>
+</blockquote>
+</li>
+</ol>
+<p>就正则吧，没啥可介绍的，基本每个语言都会提供的包，而且还就很麻烦qwq<br>还没翻译的子包：<strong><a href="https://studygolang.com/static/pkgdoc/pkg/regexp_syntax.htm" target="_blank" rel="noopener">regexp/syntax</a></strong></p>
+<ol start="16">
+<li><strong><a href="https://studygolang.com/static/pkgdoc/pkg/database_sql.htm" target="_blank" rel="noopener">database/sql</a></strong><br>实现了对SQL的大量操作<br>并且官网指出了<blockquote>
+<p>使用sql包时必须注入（至少）一个数据库驱动。</p>
+</blockquote>
+</li>
+</ol>
+<p>例如</p>
+<pre><code>_&quot;github.com/go-sql-driver/mysql&quot;</code></pre><p>这条语句将提供MySQL驱动。<br>具体的查询执行都是通过调用驱动实现的db接口中的方法<br>database/sql 提供的是抽象概念，和具体数据库无关，具体的数据库实现，有驱动来做，这样可以很方便的更换数据库。<br>子包<strong><a href="https://studygolang.com/static/pkgdoc/pkg/database_sql_driver.htm" target="_blank" rel="noopener">database/sql/driver</a></strong>定义了一些接口供数据库驱动实现</p>
+<ol start="17">
+<li><strong><a href="https://studygolang.com/static/pkgdoc/pkg/os.htm" target="_blank" rel="noopener">os</a></strong><br>os包提供了操作系统函数的不依赖平台的接口。设计为Unix风格的，虽然错误处理是go风格的；失败的调用会返回错误值而非错误码。通常错误值里包含更多信息。<br>os包主要实现与操作系统相关的函数，并且是与平台无关的。<br>在 Go 中，文件描述符封装在 os.File 结构中，通过 File.Fd() 可以获得底层的文件描述符：fd。<br>例如：文件打开关闭，新建等等<br>子包：</li>
+</ol>
+<p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/os_user.htm" target="_blank" rel="noopener">os/user</a></strong><br>与系统用户相关的库，可用于获取登陆用户、所在祖等信息<br><strong><a href="https://studygolang.com/static/pkgdoc/pkg/os_signal.htm" target="_blank" rel="noopener">os/signal</a></strong><br>Unix-Like 的系统信号处理相关函数，Linux支持64中系统信号<br><strong><a href="https://studygolang.com/static/pkgdoc/pkg/os_exec.htm" target="_blank" rel="noopener">os/exec</a></strong><br>帮助我们实现了方便执行命令的能力</p>
+<ol start="18">
+<li><strong><a href="https://studygolang.com/static/pkgdoc/pkg/hash.htm" target="_blank" rel="noopener">hash</a></strong><br>hash包主要是提供了不同的hash算法<br>PS：md5 hash算法包含在crypto/hash中<br>子库主要提供了不同的循环冗余校验算法<br>日后加密时候会用到<br>一些子库：</li>
+</ol>
+<p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/hash_adler32.htm" target="_blank" rel="noopener">hash/adler32</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/hash_crc32.htm" target="_blank" rel="noopener">hash/crc32</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/hash_crc64.htm" target="_blank" rel="noopener">hash/crc64</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/hash_fnv.htm" target="_blank" rel="noopener">hash/fnv</a></strong></p>
+<ol start="19">
+<li><strong><a href="https://studygolang.com/static/pkgdoc/pkg/html.htm" target="_blank" rel="noopener">html</a></strong><br>html包提供了用于转义和解转义HTML文本的函数<br>主要是提供对html文本的处理<br>子包template提供了对html的模板渲染</li>
+</ol>
+<p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/html_template.htm" target="_blank" rel="noopener">html/template</a></strong></p>
+<ol start="20">
+<li><strong><a href="https://studygolang.com/static/pkgdoc/pkg/math.htm" target="_blank" rel="noopener">math</a></strong><br>math包提供了基本的数学处理<br>包括数学计算，数学常量<br>具体实现好像是通过大量的汇编代码实现<br>基本有需求的时候就可以直接用<br>子库</li>
+</ol>
+<p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/math_cmplx.htm" target="_blank" rel="noopener">math/cmplx</a></strong><br>支持复数操作<br><strong><a href="https://studygolang.com/static/pkgdoc/pkg/math_big.htm" target="_blank" rel="noopener">math/big</a></strong><br>支持高/多精度运算<br><strong><a href="https://studygolang.com/static/pkgdoc/pkg/math_rand.htm" target="_blank" rel="noopener">math/rand</a></strong><br><strong>随机生成数包</strong>这个还是很常用的（支持生成多种类型</p>
+<blockquote>
+<p>如果需要每次运行产生不同的序列，应使用Seed函数进行初始化。默认资源可以安全的用于多go程并发。</p>
+</blockquote>
+<p>这里引用一条官方的提示，并作一下解释：同一个程序多次调用rand函数只会生成同一个随机数，这个点需要注意一下</p>
+<ol start="21">
+<li><strong><a href="https://studygolang.com/static/pkgdoc/pkg/crypto.htm" target="_blank" rel="noopener">crypto</a></strong><br>crypto包提供了常用的加密算法<br>包含了常用的加密算法实现，比如最常见的公私钥加密，散列算法，各种签名算法等等<br>涉及算法层面很复杂，基本都是直接拿来用<br>基本都是提供与加密相关的函数，实际情况下，经常会于其他字符/数字处理包联动<br>大量的子库对应大量的加密算法</li>
+</ol>
+<p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_aes.htm" target="_blank" rel="noopener">crypto/aes</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_cipher.htm" target="_blank" rel="noopener">crypto/cipher</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_des.htm" target="_blank" rel="noopener">crypto/des</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_dsa.htm" target="_blank" rel="noopener">crypto/dsa</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_ecdsa.htm" target="_blank" rel="noopener">crypto/ecdsa</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_elliptic.htm" target="_blank" rel="noopener">crypto/elliptic</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_hmac.htm" target="_blank" rel="noopener">crypto/hmac</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_md5.htm" target="_blank" rel="noopener">crypto/md5</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_rand.htm" target="_blank" rel="noopener">crypto/rand</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_rc4.htm" target="_blank" rel="noopener">crypto/rc4</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_rsa.htm" target="_blank" rel="noopener">crypto/rsa</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_sha1.htm" target="_blank" rel="noopener">crypto/sha1</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_sha256.htm" target="_blank" rel="noopener">crypto/sha256</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_sha512.htm" target="_blank" rel="noopener">crypto/sha512</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_subtle.htm" target="_blank" rel="noopener">crypto/subtle</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_tls.htm" target="_blank" rel="noopener">crypto/tls</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_x509.htm" target="_blank" rel="noopener">crypto/x509</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/crypto_x509_pkix.htm" target="_blank" rel="noopener">crypto/x509/pkix</a></strong></p>
+<ol start="22">
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/syscall.htm" target="_blank" rel="noopener">syscall</a></strong><br>硬核系统层面调用<br>很复杂<br>实现应用层和操作底层的接口<strong>不同系统之间也存在着差异</strong><br>涉及架构、汇编<br>没有子库</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/bufio.htm" target="_blank" rel="noopener">bufio</a></strong></p>
+<blockquote>
+<p>bufio包实现了有缓冲的I/O。它包装一个io.Reader或io.Writer接口对象，创建另一个也实现了该接口，且同时还提供了缓冲和一些文本I/O的帮助函数的对象。</p>
+</blockquote>
+</li>
+</ol>
+<p>通过io.Reader或io.Writer创建新的Reader或Writer实例<br>没有子库</p>
+<ol start="24">
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/builtin.htm" target="_blank" rel="noopener">builtin</a></strong><br>内部声明/定义了Go的内置类型、内置函数、内置变量</p>
+<blockquote>
+<p>builtin 包为Go的预声明标识符提供了文档。此处列出的条目其实并不在builtin包中，对它们的描述只是为了让 godoc 给该语言的特殊标识符提供文档。</p>
+</blockquote>
+<p>通过官网的声明来看，builtin只是个类似包含了说明文档的包，具体和Go的内部实现有关<br>builtin没有子包</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/expvar.htm" target="_blank" rel="noopener">expvar</a></strong><br>expvar提供了可以查询Go运行时的指标记录的接口<br>通过HTTP在/debug/vars位置以JSON格式导出了这些变量（很多）<br>个人认为使用范围可以比较广的一个包，但是<strong>这个包用的人很少…….</strong>非常少<br>运行时会自动注册<code>http://localhost:9090/debug/vars</code><br>(路由接口因程序而定，可以自定义<br>源码相对较少，没有子库</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/context.htm" target="_blank" rel="noopener">context</a></strong><br>Go上下文包<br>和Golang的并发有很大联系，可以帮助程序更好的控制并发，在不同的goroutine间实现安全的传递数据以及超时管理等<br>声明了重要的Context接口<br>主要应用在：控制goroutine的生命周期、使不同的Goroutine携带各自的value变量等<br>因为和并发关系很大，所以使用时要考虑的并发的知识要很全面<br>没有子库</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/flag.htm" target="_blank" rel="noopener">flag</a></strong><br>flag包用于命令行解析参数<br>可以很酷的帮助你实现命令行操作<br>例如<code>git commit -m</code><br>哈哈哈</p>
+<blockquote>
+<p>一般可以通过这个库来实现一些基本的操作，如果需要更复杂的命令行解析方式，可以用<a href="https://github.com/urfave/cli" target="_blank" rel="noopener">https://github.com/urfave/cli</a> 或者 <a href="https://github.com/spf13/cobra" target="_blank" rel="noopener">https://github.com/spf13/cobra</a>这两个非官方标准库</p>
+</blockquote>
+</li>
+</ol>
+<p>flag包没有子库</p>
+<ol start="28">
+<li>go<br>go包是Go语言核心工具使用的包。<br>有兴趣可以直接看源码….这里就直接跳过啦</li>
+</ol>
+<p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/go_ast.htm" target="_blank" rel="noopener">go/ast</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/go_build.htm" target="_blank" rel="noopener">go/build</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/go_constant.htm" target="_blank" rel="noopener">go/constant</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/go_doc.htm" target="_blank" rel="noopener">go/doc</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/go_format.htm" target="_blank" rel="noopener">go/format</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/go_importer.htm" target="_blank" rel="noopener">go/importer</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/go_parser.htm" target="_blank" rel="noopener">go/parser</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/go_printer.htm" target="_blank" rel="noopener">go/printer</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/go_scanner.htm" target="_blank" rel="noopener">go/scanner</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/go_token.htm" target="_blank" rel="noopener">go/token</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/go_types.htm" target="_blank" rel="noopener">go/types</a></strong></p>
+<ol start="29">
+<li>debug<br>debug包是Go语言中和调试有关的包<br>其中dwarf子包好像是主要与UNIX有关，包含很硬核的底层操作/信息，官网有pdf，有兴趣的可以下载下来看，很神奇哈哈哈，这里也是直接跳过</li>
+</ol>
+<p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/debug_dwarf.htm" target="_blank" rel="noopener">debug/dwarf</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/debug_elf.htm" target="_blank" rel="noopener">debug/elf</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/debug_gosym.htm" target="_blank" rel="noopener">debug/gosym</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/debug_macho.htm" target="_blank" rel="noopener">debug/macho</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/debug_pe.htm" target="_blank" rel="noopener">debug/pe</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/debug_plan9obj.htm" target="_blank" rel="noopener">debug/plan9obj</a></strong></p>
+<ol start="30">
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/path.htm" target="_blank" rel="noopener">path</a></strong><br>回归正常的Go标准库，path包实现了对路径处理（这里就是官网指的斜杠分隔的路径，即通过<em>/</em>分隔）常用与对文件路径、URL的处理<br>本身篇幅较短，大概是除了error包最简单易懂的了<br>主要就是方便的实现一系列与路径有关的操作<br>这个包似乎不适合Windows的磁盘路径处理（因为不同系统，路径表示方式有所不同<br>而他的子包<strong><a href="https://studygolang.com/static/pkgdoc/pkg/path_filepath.htm" target="_blank" rel="noopener">path/filepath</a></strong>实现了兼容的问题</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/plugin.htm" target="_blank" rel="noopener">plugin</a></strong><br>首先指出有的人有可能没有这个包…<br>因为这个包是Go1.8才被官方添加的包（可以通过<code>go version</code>查看当前版本然后去官网更新），目的是增加Go本身的动态库加载能力<br>目前只支持Linux和MacOS</p>
+<blockquote>
+<p>似乎使用不是那么方便，生成和使用库文件的环境有一定的要求</p>
+</blockquote>
+</li>
+</ol>
+<p>plugin包没有子包</p>
+<ol start="32">
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/reflect.htm" target="_blank" rel="noopener">reflect</a></strong><br>（这个包其实位置应该放在前面一点的<br>主要包含与反射相关的函数，通过反射可以实现运行时的动态创建、修改变量、进行函数方法的调用等操作<br>有可能常用的两个方法：reflect.ValueOf,reflect.TypeOf<br>reflect包没有子库</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/testing.htm" target="_blank" rel="noopener">testing</a></strong><br>testing包提供了Go中自动化测试的相关实现<br>与<code>go test</code>命令配合使用</p>
+<blockquote>
+<p>常用的测试方法：单元测试，基准测试，子测试<br>Go推荐采用表格驱动的测试方式</p>
+</blockquote>
+</li>
+</ol>
+<p>子包：<strong><a href="https://studygolang.com/static/pkgdoc/pkg/testing_iotest.htm" target="_blank" rel="noopener">testing/iotest</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/testing_quick.htm" target="_blank" rel="noopener">testing/quick</a></strong></p>
+<ol start="34">
+<li><p>text<br>text包主要是关于文本（<strong>不同于字符串</strong>）分析<br>词法分析：<strong><a href="https://studygolang.com/static/pkgdoc/pkg/text_scanner.htm" target="_blank" rel="noopener">text/scanner</a></strong><br>tab处理：<strong><a href="https://studygolang.com/static/pkgdoc/pkg/text_tabwriter.htm" target="_blank" rel="noopener">text/tabwriter</a></strong><br>模板引擎：<strong><a href="https://studygolang.com/static/pkgdoc/pkg/text_template.htm" target="_blank" rel="noopener">text/template</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/text_template_parse.htm" target="_blank" rel="noopener">text/template/parse</a></strong></p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/unsafe.htm" target="_blank" rel="noopener">unsafe</a></strong><br>unsafe包提供了一些跳过go语言类型安全限制的操作。<br>平时Go会限制一些可能导致程序运行出错的用法，通过unsafe可以突破Go的限制，包含不安全的操作<br>涉及底层编程<br>unsafe没有子包</p>
+</li>
+<li><p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/image.htm" target="_blank" rel="noopener">image</a></strong><br>image实现了基本的2D图片库。</p>
+</li>
+</ol>
+<p>**<a href="https://studygolang.com/static/pkgdoc/pkg/image_color.htm" target="_blank" rel="noopener">image/color</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/image_color_palette.htm" target="_blank" rel="noopener">image/color/palette</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/image_draw.htm" target="_blank" rel="noopener">image/draw</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/image_gif.htm" target="_blank" rel="noopener">image/gif</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/image_jpeg.htm" target="_blank" rel="noopener">image/jpeg</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/image_png.htm" target="_blank" rel="noopener">image/png</a></p>
+<ol start="37">
+<li>archive<br>包含文件的归档</li>
+</ol>
+<p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/archive_tar.htm" target="_blank" rel="noopener">archive/tar</a></strong><br>压缩<strong><a href="https://studygolang.com/static/pkgdoc/pkg/archive_zip.htm" target="_blank" rel="noopener">archive/zip</a></strong></p>
+<ol start="38">
+<li>compress<br>主要是与压缩有关的操作，包含常见的几种压缩格式bzip2、flate、gzip、lzw、zlib<br>有些操作要与tar联动使用</li>
+</ol>
+<p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/compress_bzip2.htm" target="_blank" rel="noopener">compress/bzip2</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/compress_flate.htm" target="_blank" rel="noopener">compress/flate</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/compress_gzip.htm" target="_blank" rel="noopener">compress/gzip</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/compress_lzw.htm" target="_blank" rel="noopener">compress/lzw</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/compress_zlib.htm" target="_blank" rel="noopener">compress/zlib</a></strong></p>
+<ol start="39">
+<li><strong><a href="https://studygolang.com/static/pkgdoc/pkg/mime.htm" target="_blank" rel="noopener">mime</a></strong><br><a href="[https://baike.baidu.com/item/MIME/2900607?fr=aladdin](https://baike.baidu.com/item/MIME/2900607?fr=aladdin)">MIME</a>(Multipurpose Internet Mail Extensions)多用途互联网邮箱扩展类型<br>本包实现了一些和MIME有关的功能</li>
+</ol>
+<p><strong><a href="https://studygolang.com/static/pkgdoc/pkg/mime_multipart.htm" target="_blank" rel="noopener">mime/multipart</a><br><a href="https://studygolang.com/static/pkgdoc/pkg/mime_quotedprintable.htm" target="_blank" rel="noopener">mime/quotedprintable</a></strong></p>
+<ol start="40">
+<li>index<br>index下只有一个子包，后缀数组<blockquote>
+<p>suffixarrayb包通过使用内存中的后缀树实现了对数级时间消耗的子字符串搜索。</p>
+</blockquote>
+</li>
+</ol>
+<p>即将子字符串的查询时间复杂度下降到了logn<br>算是个算法包<br><strong><a href="https://studygolang.com/static/pkgdoc/pkg/index_suffixarray.htm" target="_blank" rel="noopener">index/suffixarray</a></strong></p>
+<ol start="41">
+<li>container<br>（这个涉及数据结构，放在最后来写！！！<br>数组、切片、映射–&gt;内置数据结构<br>container中还包含了很多数据结构<br>堆<strong><a href="https://studygolang.com/static/pkgdoc/pkg/container_heap.htm" target="_blank" rel="noopener">container/heap</a></strong><br>双向链表<strong><a href="https://studygolang.com/static/pkgdoc/pkg/container_list.htm" target="_blank" rel="noopener">container/list</a></strong><br>环链<strong><a href="https://studygolang.com/static/pkgdoc/pkg/container_ring.htm" target="_blank" rel="noopener">container/ring</a></strong><br>具体的使用看源码就可以啦，平时使用也没有特别多的操作</li>
+</ol>
+<p>顺便一提，以上的标准库有一部分是依赖第三方包vender的，这个也是官方所开发</p>
+<p>除了源码中带有的这些标准库，官方还在<a href="[https://github.com/golang](https://github.com/golang)">Github</a>上提供了很多包</p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">kocoler</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://yoursite.com/2019/12/07/Golang%20%E5%AE%98%E6%96%B9%E6%A0%87%E5%87%86%E5%BA%93%E5%AD%A6%E4%B9%A0/">http://yoursite.com/2019/12/07/Golang%20%E5%AE%98%E6%96%B9%E6%A0%87%E5%87%86%E5%BA%93%E5%AD%A6%E4%B9%A0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Go/">Go</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/03/29/%E7%AE%80%E8%BF%B0%E5%87%A0%E7%A7%8D%E5%B8%B8%E8%A7%81%E7%9A%84%E6%A0%91/"><i class="fa fa-chevron-left">  </i><span>简述几种常见的树</span></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(https://s1.ax1x.com/2020/05/30/tQTcKe.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2019 - 2020 By kocoler</div><div class="framework-info"><span>Driven - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" target="_blank" rel="noopener"><span>Melody</span></a></div><div class="footer_custom_text">愿幻想乡风调雨顺</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script src="/js/search/local-search.js"></script><script id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" data-click="true"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">Local search</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>Powered by</span> <a href="https://github.com/wzpan/hexo-generator-search" target="_blank" rel="noopener" style="color:#49B1F5;">hexo-generator-search</a></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"superSample":2,"width":210,"height":420,"position":"right","hOffset":0,"vOffset":-20},"log":false,"tagMode":false});</script></body></html>
