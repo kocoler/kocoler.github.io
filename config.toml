@@ -4,20 +4,16 @@ title = "kocoler's blog"
 author = "kocoler"
 theme = "papermod"
 disqusShortname = "kocoler's blog"
-builddrafts = true
-enableEmoji = true
 
 [params]
 showtoc = true
-tocopen = true
+tocopen = false
 ShowCodeCopyButtons = true
-ShowShareButtons = true
 hideSummary = false
 
 [params.homeInfoParams]
 Title = "Hi there 👋"
-Content = ""
-
+Content = "I'm a junior of CCNU, loving Go and focus on cloud native and public classes."
 
 [[params.socialIcons]]
 name = "github"

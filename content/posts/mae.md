@@ -77,19 +77,27 @@ MAE(MUXI APP ENGINE) 主要分为两个部分：
 
 ##### **部署状态**
 
-这里将在集群上的状态简化为以下四种：
-部署中，已停止，部署成功，部署失败
+<!-- 这里将在集群上的状态简化为以下四种：
+部署中，已停止，部署成功，部署失败 -->
 
 我们都知道 k8s 的资源是需要创建的，其中 Ingress, Service, Namespce, Deployment 的创建结果都是会同步被 api-server 返回的，那么我们可以假设，如果他创建成功，那么他就是成功的了
 事实上，如果我们忽略运维人为删除，那么这个状态就是可以保证的，将状态写入到数据库进行持久化
 而 Deployment 下面的 RS, node 则较为复杂，下文也会讨论到
 
-那么我们可以很方便的将部署状态分为两部分：创建时状态和运行时状态
+那么我们可以很方便的将部署状态分为两部分：创建时（api-server）状态和运行时（在集群上）状态
 
-- 创建时状态
-    这里主要考虑的是 Ingress, Service, Namespace, Deployment 的直接创建结果
-    如果还未触发
+- 创建状态
+    这里主要考虑的是 Ingress, Namespace 的直接创建结果
+    如果还未触发第一阶段的回调（创建回调）： 部署中
+    成功返回：部署成功
 
+- 集群状态
+    从项目的角度来说，Ingress, Namespace 之外的概念应该是 Version, 这里就直接对应到 Service + Deployment 两个的状态，为了保证 Service 和 Deployment specs 的一致，不遗漏修改信息，我们选择 diff 一下然后 update/create
+    而这两个的创建时状态和上面一样
+    这里主要涉及的是
+
+最后，每一步的部署，都会对应一个 RecordID，每个 RecordID 可以对应到对应的 **Log Records** 来让用户观察到其中部署的细节，像其他 CI 的 Log 一样的效果。
+当然这里会考虑到一瞬间大量日志挤爆 Mysql 的情况，这种情况下我们可以加入 MQ 来缓冲一下，使流速均匀。
 
 
 #### 服务器、集群
@@ -145,8 +153,12 @@ MKE(MUXI K8s Engine) 是独立于 MAE 存在的与 k8s api server 交互的，�
 
 - **MKE CRD**
 
+    搭配 MAE 使用的 Custom Resource
+    是一个 Controller 的角色，辅助 MAE 进行整个集群上部署情况的整理
+
     因为单纯使用 clinet-go 与集群交互对于一些监控状态操作不是那么直接(如：Deployment 的具体状态，同时涉及 Deployment 与 ReplicaSet)
-    并且在测试场景遇到了一些 BUG(已经忘了是什么了，好像是在 服务重启是会重复触发事件) 于是直接选择了最开始就想的集群 CRD 方案，让这一部分作为 CRD 运行在各个集群上去帮助我们得知 Deployemnt 的状态，反馈回来
+
+    并且在测试场景遇到了一些 BUG(已经忘了是什么了，好像是在 服务重启时 会 重复触发 事件) 于是直接选择了最开始就想的集群 CRD 方案，让这一部分作为 CRD 运行在各个集群上去帮助我们得知 Deployemnt 的状态，反馈回来
 
     还有一个原因就是，我们的 MAE 与 集群 交互是走公网的，因为可能会与不同的集群不在同一个地域，所以也要尽可能的**减少与集群间的网络流量**，并且学生机性能并不好，尤其要**减少单个服务器的处理任务**（均摊）
 
@@ -157,6 +169,9 @@ MKE(MUXI K8s Engine) 是独立于 MAE 存在的与 k8s api server 交互的，�
 接下来是根据 k8s 中我们需要用到的具体的资源
 
 ##### Namespace
+
+> Resource relations:
+> Namespace <---> Cluster <---> Application
 
 Namespace 作为 K8s 中最直接的隔离资源的概念，非常适合对应到我们业务中的 Application
 
@@ -174,13 +189,16 @@ Namespace 作为 K8s 中最直接的隔离资源的概念，非常适合对应�
 
 ##### Ingress
 
+> Resource relations:
+> Different env(product/test) <---> Namespaces  <---> Service <---> Ingress
+
 Ingress 作为内部服务暴露到集群与外界交互的一部分，需要用户自定义每个 Route 的细节，并且可以引入 SSL
 
 - 创建流程：
 
     新的 Ingress 资源 -> 在目标集群上 Apply -> 如果有错误，直接 Callback
 
-- 如何收集目标集群
+- 如何收集需要部署的目标集群
 
     因为这里的集群分为 Test 和 Product 两种，每次的部署需要同时考虑这两种
     对应关系为：
@@ -203,14 +221,16 @@ Ingress 的 更新，创建，新版本发布，在不同的 版本之间是分�
     - 已经在集群上的状态
         Pending，Success 或者 Failed
         并且把这些日志集成到对应部署记录的日志中，通过特定的部署记录访问相关的部署日志
+        如上述 部署状态 所述
 
 - 流程
   
     关系：一个版本对应多个资源对应多个集群
     one version -> multiple resources --> multiple clusters
-    > on the cluster: new deployment -> replicaset(s) -> pod(s)
+    对应到集群上的关系：
+    > new deployment -> replicaset(s) -> pod(s)
 
-    new version -> apply on target clusters(service && deployment) ->
+    new version -> apply on target clusters(service && deployment) -> callback
 
     - service
 
@@ -219,12 +239,13 @@ Ingress 的 更新，创建，新版本发布，在不同的 版本之间是分�
     - deployment
 
         之前的设计:
+        通过 go-client 内置的一系列 **`watcher`** 那一套去接收目标服务器的事件，再处理
 
-            goto deploymentStatusWatcher -> replicasetsWacher -> podWacher -> callback
+        > goto deploymentStatusWatcher -> replicasetsWacher -> podWacher -> callback
 
         现在的设计:
-            对于创建资源状态阶段 是可以直接 callback 的
-            对于在集群上的具体状态是要通过 deploymentWatcher 会报来的状态更新
+        对于创建资源状态阶段 是可以直接 callback 的
+        对于在集群上的具体状态是要通过 deploymentWatcher 返回来的状态更新
 
 
 具有默认模板给用户使用
@@ -243,17 +264,35 @@ Ingress 的 更新，创建，新版本发布，在不同的 版本之间是分�
 - 创建资源
     只需要用 MKE 封装的 apply 方法进行创建资源操作，将结果处理函数
     这样将 MKE 与 MAE 完全解耦，使得 MAE 某一个资源的后续操作完全自由控制，MKE 只负责回调
+    具体操作是再次封装 MKE 的各种方法，放在 `/service` 中，作为 `cluster` 的一种 `service` 调用
 
     如图：
     ![图 1](https://s2.loli.net/2021/12/14/IKJUkWreLyOG3Ec.png)  
     CallBack 的 Interface 设计
-    
+    具有三个主要的函数，分别对应 完成、日志、删除
+    并不对应 成功/失败
+    具体逻辑由 service 决定，service 只保证一个服务会成功的写入日志 Log，并且成功的返回部署的状态，并且会在必要的时刻删除该记录（当然这里是软删除）标记不可用
 
+#### 一致性
 
-#### 持久化
+##### 持久化
 
 作为保障一致性最有效的手段就是持久化
 每一部分关于资源的一些状态，都需要持久化，并且需要一些策略来保证每个事件对每个状态机的影响，同时需要保证每次交互的 幂等性
+这里持久化的内容规定为：所有资源的状态，每次更新都需要同步，DB 部分交给 MySQL 来完成，上层部分通过各个资源的状态机来完成，以及最重要的，每一次更新资源状态的 **DeployRecords**
+通过最新的 DeployRecords, MAE 可以正确的获取到当前达成的状态，如果产生某些状态缺失，则会立即更新，并且**如果有多个事件到达，只会更新最新的事件，并且会更新所有以前未完成的状态**
+
+##### 一致性
+
+我们的一致性模型是无主的，可以有若干个 MAE 部署在若干地方
+只要保证每个请求打到任意一个节点，那么他的状态就是全局可见的，因此不会有冲突，如果这个节点挂掉，那么他的状态也一定是没有被执行的，那么一定会有新的事件顶替掉这个旧事件
+当然我们理想的场景是，有限个 MAE, 每个集群一个 deployment operater
+所以我们需要更多的考虑，当旧 MAE 挂掉之后，新的 MAE 起来的时候，看到的状态是否是一致
+事实上，在我们实现的模型中，因为 Goroutinue 是无状态的，所以会丢失创建资源的最终状态，或者超时回调，但是这个本身概率就是很小的(api-server 的访问非常迅速)
+关于 deployment-operater, 可以将最新的 状态信息发送到目的 MAE 实例，如果没有收到 OK 的 response，那么就认为是无效的，需要重新发送，这里可以加入 二进制指数退避算法 重试
+这样，最终的状态一定是不会冲突的，达成了我们可以容忍的弱一致性
+
+在以上两点的基础上，容错机制也就体现出来了，因为总会有更新的事件去更新上一个挂掉的实例未完成的事件
 
 
 #### 为什么把 deployment-operater 剥离出来
