@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Posts on kocoler's blog</title><link>https://kocoler.github.io/posts/</link><description>Recent content in Posts on kocoler's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 29 Jun 2021 21:48:39 +0000</lastBuildDate><atom:link href="https://kocoler.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>MAE + MKE 设计</title><link>https://kocoler.github.io/posts/mae/</link><pubDate>Tue, 29 Jun 2021 21:48:39 +0000</pubDate><guid>https://kocoler.github.io/posts/mae/</guid><description>MAE(MUXI APP ENGINE) 主要分为两个部分：
+基础业务 集群管理 对应 Github 上的 specs Github 上为英文版本
+因为历史原因，项目基本结构并不是 DDD 但是大部分分包也是比较清晰的，虽然并不指望有人维护，这也是代码里要更多考虑 自恢复/差错容忍/其他人为外部运维因素 的原因 部分设计参考阿里成熟的开源项目 kubevela 项目代码清晰，符合普遍的社区标准 但是目前还未开源&amp;hellip; 此介绍文档还在不断更新，如果更新了设计，以及我想更新哈哈哈qwq
+技术选用:
+Mysql 因为本项目大部分数据的数据模型都是关系模型，所以选用了较为熟悉的 RDB Mysql, Gorm 作为 orm 框架 Redis 本项目需要最基本的 业务层缓存 以及 轻量消息队列作为缓冲，所以选用了较为熟悉的 Redis Client-go 管理集群是本项目核心部分，目前团队基本所有服务都部署与 k3s(更轻量的 k8s，减少服务器负载) 管理的集群上，所以选用 client-go 作为项目与集群的交互的 k8s SDK Gin 为本项目的 Web 框架 重点：
+关于集群管理 关于分布式场景下一致性的讨论 至于为什么会涉及到分布式场景，作为一个基于 k8s 上的服务，不天然支持分布式不太好对不对 hhh，也许是过度设计，但是考虑这些是十分有必要的
+基础业务 用户系统 最基本的用户系统，以及鉴权 接入团队 OAuth2.</description></item><item><title>Go入门须知</title><link>https://kocoler.github.io/posts/introduction-to-go/</link><pubDate>Sun, 15 Nov 2020 12:37:00 +0000</pubDate><guid>https://kocoler.github.io/posts/introduction-to-go/</guid><description>GOLANG, GOPATH, GOROOT &amp;hellip;&amp;hellip;
+预备知识 后面可能会用到，用到的时候再回来看
+环境变量（Environment Variable）
+环境变量相当于给系统或用户应用程序设置的一些参数
+作用于这个系统层面的，不拘束于某些应用程序等等
+就比如我开机什么都不干Go就知道自己是装好的，知道哪里是GOPATH，大家都可以读取
+如何写入？
+vim ~/.bashrc // export xxx=xxx ... // export 的意思就是将局部变量设置为环境变量 source ~/.bashrc // 检查是否成功 echo $xxx // echo 打印 在别的教程看到的不同的文件（~/.profile, /etc/profile &amp;hellip;&amp;hellip;）有什么区别？
+如何选择放哪里
+区别
+PATH
+PATH: a list of directory paths. When the user types a command without providing the full path, this list is checked to see whether it contains a path that leads to the command.</description></item><item><title>简述Elasticsearch 7.x</title><link>https://kocoler.github.io/posts/es/</link><pubDate>Sat, 30 May 2020 21:48:39 +0000</pubDate><guid>https://kocoler.github.io/posts/es/</guid><description>主要讲述ES 7.x 版本的东西，附带同样基于Luence并且很火的Solar和ES的对比 1. Luence 是一个开放源代码的全文检索引擎工具包，但它不是一个完整的全文检索引擎，而是一个全文检索引擎的架构，提供了完整的查询引擎和索引引擎 Lucene提供了一个简单却强大的应用程式接口，能够做全文索引和搜寻。 简而言之：Lucene是apache下的一个开源的全文检索引擎工具包。
+更多有关Luence：
+https://tool.oschina.net/apidocs/apidoc?api=lucene-3.6.0 https://lucene.apache.org/core/ Luence的全文索引
+2. Solar &amp;amp; ES 2.1 Solar Solr 作为 Apache 基金会的顶级项目，技术成熟而且用户量巨大。
+在ES发布之前搜索引擎就是Solar的天下
+Solr 索引的实现方法很简单，用 POST 方法向 Solr 服务器发送一个描述 Field 及其内容的 XML 文档，Solr根据xml文档添加、删除、更新索引 。Solr 搜索只需要发送 HTTP GET 请求，然后对 Solr 返回Xml、json等格式的查询结果进行解析，组织页面布局。
+2.2 ES 通过简单的 RESTful API 来隐藏Lucene的复杂性，从而让全文搜索变得简单。
+2.3 比较 1.ES开箱即用 2.ES自带分布式协调管理 3.Solr 支持更多格式的数据，比如JSON、XML、CSV，而 Elasticsearch 仅支持json文件格式 4.Solr 查询快，但更新索引时慢（即插入删除慢），用于电商等查询多的应用 ES建立索引快（即查询慢），即实时性查询快 3. ES 7.x 3.1 ES 的好朋友们 众所周知，大家都喜欢看有UI的东西，ES也具有很完备的WebUI，并且在积极的维护着
+ELK-Stack(elastic stack)
+Logstash：数据收集，处理和储存
+Elasticsearch：检索和分析
+Kibana：可视化
+Beats：轻量级（资源高效，无依赖性，小型）的日志发送程序。收集数据 &amp;ndash;&amp;gt; Logstash （建立在名为libbeat的Go框架之上</description></item><item><title>简述几种常见的树</title><link>https://kocoler.github.io/posts/learning-tree/</link><pubDate>Sun, 29 Mar 2020 21:48:39 +0000</pubDate><guid>https://kocoler.github.io/posts/learning-tree/</guid><description>1. 树 它是由n（n&amp;gt;=1）个有限结点组成一个具有层次关系的集合。
+节点 子节点 父节点 根节点 节点的度：含有子树的个数 层 高度/深度 森林 应用范围很广
+2. 树的几种常见类型 二叉树
+完全二叉树
+堆（优先队列的高效实现方式） 霍夫曼树 二叉搜索树
+平衡二叉搜索树
+红黑树
+N叉树
+B树 B+树 前缀树（ 字典树、Trie ）
+后缀树
+3. 从最单纯的二叉树开始 特点：有一个根节点，最多只有两个孩子（两棵子树），左孩子和右孩子，即有序的
+主要算法：
+四种遍历方式（一般采用递归）： 前序遍历：根左右 中序遍历：左根右 后序遍历：左右根 层序遍历：左顾右盼 增删查：BFS/DFS暴力，拼接 type treeNode struct { value interface{} leftchild *treeNode rightchild *treeNode //high int //leftSize int //other things } 主要应用：表示结构层次与逻辑，三种遍历方式形成的前缀式、中缀式、后缀式可以表示运算和各种用途</description></item><item><title>Golang 官方标准库学习</title><link>https://kocoler.github.io/posts/learning-go-package/</link><pubDate>Sat, 07 Dec 2019 23:49:49 +0000</pubDate><guid>https://kocoler.github.io/posts/learning-go-package/</guid><description>Go源码中带有的所有官方标准库，基于 1.10 版本的 Go 源码。</description></item></channel></rss>

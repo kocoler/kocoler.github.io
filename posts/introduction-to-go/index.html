@@ -1,0 +1,585 @@
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>Go入门须知 | kocoler's blog</title>
+<meta name=keywords content>
+<meta name=description content="GOLANG, GOPATH, GOROOT &mldr;&mldr;
+ 预备知识 后面可能会用到，用到的时候再回来看
+  环境变量（Environment Variable）
+环境变量相当于给系统或用户应用程序设置的一些参数
+作用于这个系统层面的，不拘束于某些应用程序等等
+就比如我开机什么都不干Go就知道自己是装好的，知道哪里是GOPATH，大家都可以读取
+如何写入？
+vim ~/.bashrc // export xxx=xxx ... // export 的意思就是将局部变量设置为环境变量 source ~/.bashrc // 检查是否成功 echo $xxx // echo 打印 在别的教程看到的不同的文件（~/.profile, /etc/profile &mldr;&mldr;）有什么区别？
+如何选择放哪里
+区别
+  PATH
+PATH: a list of directory paths. When the user types a command without providing the full path, this list is checked to see whether it contains a path that leads to the command.">
+<meta name=author content>
+<link rel=canonical href=https://kocoler.github.io/posts/introduction-to-go/>
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.c88963fe2d79462000fd0fb1b3737783c32855d340583e4523343f8735c787f0.css integrity="sha256-yIlj/i15RiAA/Q+xs3N3g8MoVdNAWD5FIzQ/hzXHh/A=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://kocoler.github.io/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=https://kocoler.github.io/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=https://kocoler.github.io/favicon-32x32.png>
+<link rel=apple-touch-icon href=https://kocoler.github.io/apple-touch-icon.png>
+<link rel=mask-icon href=https://kocoler.github.io/safari-pinned-tab.svg>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<meta name=generator content="Hugo 0.90.1">
+<noscript>
+<style>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript><meta property="og:title" content="Go入门须知">
+<meta property="og:description" content="GOLANG, GOPATH, GOROOT &mldr;&mldr;
+ 预备知识 后面可能会用到，用到的时候再回来看
+  环境变量（Environment Variable）
+环境变量相当于给系统或用户应用程序设置的一些参数
+作用于这个系统层面的，不拘束于某些应用程序等等
+就比如我开机什么都不干Go就知道自己是装好的，知道哪里是GOPATH，大家都可以读取
+如何写入？
+vim ~/.bashrc // export xxx=xxx ... // export 的意思就是将局部变量设置为环境变量 source ~/.bashrc // 检查是否成功 echo $xxx // echo 打印 在别的教程看到的不同的文件（~/.profile, /etc/profile &mldr;&mldr;）有什么区别？
+如何选择放哪里
+区别
+  PATH
+PATH: a list of directory paths. When the user types a command without providing the full path, this list is checked to see whether it contains a path that leads to the command.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kocoler.github.io/posts/introduction-to-go/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2020-11-15T12:37:00+00:00">
+<meta property="article:modified_time" content="2020-11-15T12:37:00+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Go入门须知">
+<meta name=twitter:description content="GOLANG, GOPATH, GOROOT &mldr;&mldr;
+ 预备知识 后面可能会用到，用到的时候再回来看
+  环境变量（Environment Variable）
+环境变量相当于给系统或用户应用程序设置的一些参数
+作用于这个系统层面的，不拘束于某些应用程序等等
+就比如我开机什么都不干Go就知道自己是装好的，知道哪里是GOPATH，大家都可以读取
+如何写入？
+vim ~/.bashrc // export xxx=xxx ... // export 的意思就是将局部变量设置为环境变量 source ~/.bashrc // 检查是否成功 echo $xxx // echo 打印 在别的教程看到的不同的文件（~/.profile, /etc/profile &mldr;&mldr;）有什么区别？
+如何选择放哪里
+区别
+  PATH
+PATH: a list of directory paths. When the user types a command without providing the full path, this list is checked to see whether it contains a path that leads to the command.">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://kocoler.github.io/posts/"},{"@type":"ListItem","position":3,"name":"Go入门须知","item":"https://kocoler.github.io/posts/introduction-to-go/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Go入门须知","name":"Go入门须知","description":"GOLANG, GOPATH, GOROOT \u0026hellip;\u0026hellip;\n 预备知识 后面可能会用到，用到的时候再回来看\n  环境变量（Environment Variable）\n环境变量相当于给系统或用户应用程序设置的一些参数\n作用于这个系统层面的，不拘束于某些应用程序等等\n就比如我开机什么都不干Go就知道自己是装好的，知道哪里是GOPATH，大家都可以读取\n如何写入？\nvim ~/.bashrc // export xxx=xxx ... // export 的意思就是将局部变量设置为环境变量 source ~/.bashrc // 检查是否成功 echo $xxx // echo 打印 在别的教程看到的不同的文件（~/.profile, /etc/profile \u0026hellip;\u0026hellip;）有什么区别？\n如何选择放哪里\n区别\n  PATH\nPATH: a list of directory paths. When the user types a command without providing the full path, this list is checked to see whether it contains a path that leads to the command.","keywords":[],"articleBody":" GOLANG, GOPATH, GOROOT ……\n 预备知识 后面可能会用到，用到的时候再回来看\n  环境变量（Environment Variable）\n环境变量相当于给系统或用户应用程序设置的一些参数\n作用于这个系统层面的，不拘束于某些应用程序等等\n就比如我开机什么都不干Go就知道自己是装好的，知道哪里是GOPATH，大家都可以读取\n如何写入？\nvim ~/.bashrc // export xxx=xxx ... // export 的意思就是将局部变量设置为环境变量 source ~/.bashrc // 检查是否成功 echo $xxx // echo 打印 在别的教程看到的不同的文件（~/.profile, /etc/profile ……）有什么区别？\n如何选择放哪里\n区别\n  PATH\nPATH: a list of directory paths. When the user types a command without providing the full path, this list is checked to see whether it contains a path that leads to the command.\n简单来说，就是命令行去哪里找的问题\n就像Go package要去GOPATH里找一样\n  绝对路径/相对路径\n绝对路径即/目录开始的一条完整路径。（绝对路径是唯一的）\n相对路径即当前目录开始的\n  一些命令行\n$ ls // 当前目录下的所有文件 $ go $ gofmt xxx // Go 的小工具，用来格式化代码风格、规范 $ go env $ go run $ go build $ which // 定位命令行文件位置 // 带参数的 $ go env -w // 设置Go环境变量 $ go run -n // 打印编译期间所用到的其它命令，但是并不真正执行它们    Go 官网 Golang官网 是个需要翻墙才可以look的地方，不过问题不大\n内含：\n  Go 各版本的安装\n  Go Blog\n可以获得一些官方的建议，最新的发展……\n  Go 官方文档\n东西蛮多的，从Go的安装到卸载到各个阶段的教程都有了\n最主要的是官方的\n比较推荐其中的**Effective go**，算是书写Go语言的规范，建议熟练运用Go之后学习\n  在线playground\n  更多关于go\n  Geting started $ vim 1.go // vim 1.c // coding...... $ go build 1.go // gcc 1.c $ ./1 // ./a.out // 或者 $ go run 1.go // 目前推荐这种方式 $ go install 1.go // 这个好玩 // end Golang  无论看哪本入门书籍，他们都会告诉你，Go很棒（当然所有语言的入门书籍都会这么说2333\n   Something about Go\nLess is more.\nC++功能太多了，Go作者也是C++程序员\n讲个小故事\n谷歌大佬从事c++开发（分布式），某一天听说c++又要加新功能，内心疯狂吐槽后找了另外几个大佬，并表明觉得简化c++更棒 大佬们一拍即合，他们决定开发一门新语言 经过漫长岁月的发展，Go诞生了 基本的核心特性\n  简洁，开发效率高\n  内存管理\n  并发编程，适合高并发\n  静态编译、强类型……\n  混合编程（cgo……）\n    Golang is like C\n看哪本书估计也都会提起Go是类C语言\n在学习的时候可能会看到很多和C相似\n这种（类C）语言通常是为某种具体的应用而仿照C语言（语法类似）开发的，所以学过C之后学Go会很快，学过Cpp之后学Go会更快2333。\n  A list of significant simplifications（重要的简化）\n没有头文件\n没有指针运算（no pointer arithmetic）\n自建类型字符串，切片，哈希表（builtin string, slice, map）\n内存0值初始化（memory is always zeroed）\n多返回值\n无循环依赖\n数组越界检查\n……\n  more\n  GOENV 都是绝对路径。\nGO111MODULE：go mod，1.11版本后支持\nGOARCH：环境架构\nGOBIN\nGOCACHE：缓存（go build）\nGOHOSTOS：目标操作系统\nGOPROXY：go代理\nGOPATH\nGOROOT\nGOENV：Go环境配置，vim进去就可以看，一般通过 go env -w xxx=xxx 命令行设置的变量都存在里面，不用每次都切环境变量，不过优先度应该是在环境变量下虽然我这台电脑就出现了奇奇怪怪的问题。\n$ go version go version go1.14.10 darwin/amd64 more\nGOROOT 概念：GOROOT就是GO的安装目录 大家写这么久C，但是C都有什么应该还很模糊，但我们可以简单的看看Go都有什么\nGOROOT里有什么：\n  api\n罗列了个版本Go api特性啥的，无所谓无所谓\n  bin\n由go官方提供的一些工具的可执行文件\n一般来说：自带的有go, gofmt\n$ which go /usr/local/go/bin/go   doc\n文档\n示例程序，代码工具，本地文档等\n  version\n版本号（顺便一提自己改是没有用的233）\n  pkg\n存放编译后的包文件\n  src\n标准库函数\n  favicon.ico\n地鼠！\n  GOBIN 概念：可执行文件目录 主要和 go install 相关，放各种go工具的地方\n$ go install goexample $ goexample GOPATH GOPATH为 Go 语言的工作区的集合（意味着可以有很多个）。工作区类似于工作目录。每个不同的目录之间用：分隔。\nGo 1.11 版本之后引入 Go module，削弱GOPATH的约束\n引自宋汝阳的良好的GOPATH结构（为了避免争议，暂且划分在启用go mod以前）：\n 这个是不是和GOROOT里很像？每个目录代表意思都差不多\n那为什么我们要这么安排？\n GO Package 的引入规则\n一般都是找两个地方：\n$GOPATH/src/... (from $GOPATH)\n$GOROOT/src/... (from $GOROOT)\nGo Package 我们之前在C语言中可能用到过的，string.h, stdlib.h 这些叫做库函数，在官方库函数之外还有各种各样的 包。\nGo 程序是通过 package 来组织的。\n例如：package 这一行告诉我们当前文件属于哪个包，而包名 main 则告诉我们它是一个可独立运行的包，它在编译后会产生可执行文件。\n 任何包系统设计的目的都是为了简化大型程序的设计和维护工作，通过将一组相关的特性放进一个独立的单元以便于理解和更新，在每个单元更新的同时保持和程序中其它单元的相对独立性。这种模块化的特性允许每个包可以被其它的不同项目共享和重用，在项目范围内、甚至全球范围统一的分发和复用。\n每个包一般都定义了一个不同的名字空间用于它内部的每个标识符的访问。每个名字空间关联到一个特定的包，让我们给类型、函数等选择简短明了的名字，这样可以避免在我们使用它们的时候减少和其它部分名字的冲突。\n每个包还通过控制包内名字的可见性和是否导出来实现封装特性。通过限制包成员的可见性并隐藏包API的具体实现，将允许包的维护者在不影响外部包用户的前提下调整包的内部实现。通过限制包内变量的可见性，还可以强制用户通过某些特定函数来访问和更新内部变量，这样可以保证内部变量的一致性和并发时的互斥约束。\n……\n GO 官方包（标准库函数）  $GOROOT/src\n 学习他：在线的，镜像的，官方的，被翻译过的\nGO 文件 GO 语言的源码文件主要分为几类：\n  命令源码文件\n命令源码文件总是作为可执行的程序的入口。\n声明自己属于 main 代码包、 main 函数。\n多个命令源码文件虽然可以分开单独 go run 运行起来，但是无法通过 go build 和 go install。\nmain.go\n  库源码文件\n库源码文件一般用于集中放置各种待被使用的程序实体（全局常量、全局变量、接口、结构体、函数等等）。\n  测试源码文件\n测试源码文件主要用于对前两种源码文件中的程序实体的功能和性能进行测试。\n  一个包是如何组成、使用的  包是函数和数据的集合。\n我们将会大量的用到各种包，各种途径的。\n   含有Go文件的目录……有可见性的东西（type, function）基本就能当作一个包使用了\n  用 package 关键字定义一个包。文件名不需要与包名一致，但是你的文件夹必须要与包名字一致，这个很重要，所以为了简单起见，名字都是一样的。\n如果你定义好了这个包，那么就可以在外部引用他了\n  食用方法：\n/* */ /* $GOPATH/src/github.com/kocoler/share/main.go */ /* */ package main import ( \"fmt\" . \"log\" // 不推荐  _ \"github.com/jinzhu/gorm/dialects/mysql\" \"github.com/kocoler/share/example\" ) func main() { fmt.Println(\"Muxi\") // fmt.Println()  Println(\"Log Println\") // log.Println() } ------ /* */ /* $GOPATH/src/github.com/kocoler/share/example/example.go */ /* */ package example import \"fmt\" int A = 0； func init() { fmt.Println(\"I'm initialzing\") } func PrintA() { fmt.Println(\"example.PrintA() executed\") }   如何找到你想用的包\n 谷歌 Github Go dev 最近Go官方也很推这个    放到GOPATH中\n// 比较笨拙的方法... $ cd $GOPATH/src/github.com $ mkdir go-gorm $ cd go-gorm $ git clone github.com/go-gorm/gorm // 或者 $ go get -t https://github.com/go-gorm/gorm // 或者 go module, 交给后面的人讲了 // 各有各的好处，不用纠结，直接auto，项目go mod，学习就off   如何快速的上手/学会用一个包\n  谷歌\n  Readme, go dev ……\nReadme 重点关注quickly start\n    不知道包引入路径？\n$ go list github.com/kocoler/share/example $ go list log log    执行 Example 经历的一小小部分  如果有时间就小小说一下…..\n无复杂东西\n挺神奇的\n加深理解233\n 如果你记忆力好一点的话，可能知道C语言的编译过程，当然这无所谓\n// 括号里是生成的\nC/C++：预处理(.i)、编译(.s)、汇编(.o)、链接(.out)\nGo：编译(.a)、链接(.out)\n .a文件是什么？\n在Go中我们称.a文件为归档文件（也就是静态文件），简单来说就是放在pkg文件夹里编译好的包\n $ go run -n main.go # # command-line-arguments # mkdir -p $WORK/b001/ # 创建临时目录 cat $WORK/b001/importcfg # import config packagefile fmt=/usr/local/go/pkg/darwin_amd64/fmt.a packagefile github.com/jinzhu/gorm/dialects/mysql=/Users/mac/go/pkg/darwin_amd64/github.com/jinzhu/gorm/dialects/mysql.a packagefile github.com/kocoler/share/example=/Users/mac/Library/Caches/go-build/fc/fc6b2deb1c0f91857e094ad17bbcd48cf4b2b84bf405710663a83dde72aeb6ad-d packagefile log=/usr/local/go/pkg/darwin_amd64/log.a packagefile runtime=/usr/local/go/pkg/darwin_amd64/runtime.a EOF cd /Users/mac/go/src/github.com/kocoler/share # 执行源代码编译 /usr/local/go/pkg/tool/darwin_amd64/compile -o $WORK/b001/_pkg_.a -trimpath \"$WORK/b001=\" -p main -complete -buildid YWEJgSlrVcwt0-zEHmU8/YWEJgSlrVcwt0-zEHmU8 -dwarf=false -goversion go1.14.10 -D _/Users/mac/go/src/github.com/kocoler/share -importcfg $WORK/b001/importcfg -pack -c=4 ./main.go /usr/local/go/pkg/tool/darwin_amd64/buildid -w $WORK/b001/_pkg_.a # internal cat $WORK/b001/importcfg.link packagefile command-line-arguments=$WORK/b001/_pkg_.a packagefile fmt=/usr/local/go/pkg/darwin_amd64/fmt.a packagefile github.com/jinzhu/gorm/dialects/mysql=/Users/mac/go/pkg/darwin_amd64/github.com/jinzhu/gorm/dialects/mysql.a packagefile github.com/kocoler/share/example=/Users/mac/Library/Caches/go-build/fc/fc6b2deb1c0f91857e094ad17bbcd48cf4b2b84bf405710663a83dde72aeb6ad-d packagefile log=/usr/local/go/pkg/darwin_amd64/log.a ...... packagefile vendor/golang.org/x/sys/cpu=/usr/local/go/pkg/darwin_amd64/vendor/golang.org/x/sys/cpu.a EOF mkdir -p $WORK/b001/exe/ cd . # 链接生成可执行文件 /usr/local/go/pkg/tool/darwin_amd64/link -o $WORK/b001/exe/main -importcfg $WORK/b001/importcfg.link -s -w -buildmode=exe -buildid=2g1FvKbI5O8czokn17YO/YWEJgSlrVcwt0-zEHmU8/YWEJgSlrVcwt0-zEHmU8/2g1FvKbI5O8czokn17YO -extld=clang $WORK/b001/_pkg_.a $WORK/b001/exe/main ​\t……\n 一些讨论\n https://github.com/golang/go/issues/23439\nhttps://stackoverflow.com/questions/25216765/gobin-not-set-cannot-run-go-install\n……\n ","wordCount":"601","inLanguage":"en","datePublished":"2020-11-15T12:37:00Z","dateModified":"2020-11-15T12:37:00Z","mainEntityOfPage":{"@type":"WebPage","@id":"https://kocoler.github.io/posts/introduction-to-go/"},"publisher":{"@type":"Organization","name":"kocoler's blog","logo":{"@type":"ImageObject","url":"https://kocoler.github.io/favicon.ico"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://kocoler.github.io accesskey=h title="kocoler's blog (Alt + H)">kocoler's blog</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</span>
+</div>
+<ul id=menu>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<h1 class=post-title>
+Go入门须知
+</h1>
+<div class=post-meta><span title="2020-11-15 12:37:00 +0000 UTC">November 15, 2020</span>
+</div>
+</header> <div class=toc>
+<details open>
+<summary accesskey=c title="(Alt + C)">
+<span class=details>Table of Contents</span>
+</summary>
+<div class=inner><ul><ul>
+<li>
+<a href=#%e9%a2%84%e5%a4%87%e7%9f%a5%e8%af%86 aria-label=预备知识>预备知识</a></li></ul>
+<li>
+<a href=#go-%e5%ae%98%e7%bd%91 aria-label="Go 官网">Go 官网</a><ul>
+<li>
+<a href=#geting-started aria-label="Geting started">Geting started</a></li></ul>
+</li>
+<li>
+<a href=#golang aria-label=Golang>Golang</a><ul>
+<ul>
+<li>
+<a href=#goenv aria-label=GOENV>GOENV</a></li></ul>
+<li>
+<a href=#goroot aria-label=GOROOT>GOROOT</a><ul>
+<li>
+<a href=#%e6%a6%82%e5%bf%b5goroot%e5%b0%b1%e6%98%afgo%e7%9a%84%e5%ae%89%e8%a3%85%e7%9b%ae%e5%bd%95 aria-label=概念：GOROOT就是GO的安装目录>概念：GOROOT就是GO的安装目录</a></li></ul>
+</li>
+<li>
+<a href=#gobin aria-label=GOBIN>GOBIN</a><ul>
+<li>
+<a href=#%e6%a6%82%e5%bf%b5%e5%8f%af%e6%89%a7%e8%a1%8c%e6%96%87%e4%bb%b6%e7%9b%ae%e5%bd%95 aria-label=概念：可执行文件目录>概念：可执行文件目录</a></li></ul>
+</li>
+<li>
+<a href=#gopath aria-label=GOPATH>GOPATH</a></li>
+<li>
+<a href=#go-package aria-label="Go Package">Go Package</a><ul>
+<li>
+<a href=#go-%e5%ae%98%e6%96%b9%e5%8c%85%e6%a0%87%e5%87%86%e5%ba%93%e5%87%bd%e6%95%b0 aria-label="GO 官方包（标准库函数）">GO 官方包（标准库函数）</a></li>
+<li>
+<a href=#go-%e6%96%87%e4%bb%b6 aria-label="GO 文件">GO 文件</a></li>
+<li>
+<a href=#%e4%b8%80%e4%b8%aa%e5%8c%85%e6%98%af%e5%a6%82%e4%bd%95%e7%bb%84%e6%88%90%e4%bd%bf%e7%94%a8%e7%9a%84 aria-label=一个包是如何组成、使用的>一个包是如何组成、使用的</a></li></ul>
+</li>
+<li>
+<a href=#%e6%89%a7%e8%a1%8c-example-%e7%bb%8f%e5%8e%86%e7%9a%84%e4%b8%80%e5%b0%8f%e5%b0%8f%e9%83%a8%e5%88%86 aria-label="执行 Example 经历的一小小部分">执行 Example 经历的一小小部分</a>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</details>
+</div>
+<div class=post-content><blockquote>
+<p>GOLANG, GOPATH, GOROOT &mldr;&mldr;</p>
+</blockquote>
+<h3 id=预备知识>预备知识<a hidden class=anchor aria-hidden=true href=#预备知识>#</a></h3>
+<p>后面可能会用到，用到的时候再回来看</p>
+<ul>
+<li>
+<p><a href=https://en.wikipedia.org/wiki/Environment_variable>环境变量</a>（Environment Variable）</p>
+<p>环境变量相当于给系统或用户应用程序设置的一些参数</p>
+<p>作用于这个系统层面的，不拘束于某些应用程序等等</p>
+<p>就比如我开机什么都不干Go就知道自己是装好的，知道哪里是GOPATH，大家都可以读取</p>
+<p>如何写入？</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>vim ~/.bashrc
+// export xxx<span style=color:#f92672>=</span>xxx ...
+// export 的意思就是将局部变量设置为环境变量
+source ~/.bashrc
+
+// 检查是否成功
+echo $xxx
+// echo 打印
+</code></pre></div><p>在别的教程看到的不同的文件（~/.profile, /etc/profile &mldr;&mldr;）有什么区别？</p>
+<p><a href=https://superuser.com/questions/789448/choosing-between-bashrc-profile-bash-profile-etc>如何选择放哪里</a></p>
+<p><a href=https://superuser.com/questions/183870/difference-between-bashrc-and-bash-profile>区别</a></p>
+</li>
+<li>
+<p>PATH</p>
+<p><code>PATH</code>: a list of directory paths. When the user types a command without providing the full path, this list is checked to see whether it contains a path that leads to the command.</p>
+<p>简单来说，就是命令行去哪里找的问题</p>
+<p>就像Go package要去GOPATH里找一样</p>
+</li>
+<li>
+<p><a href=https://www.linuxnix.com/abslute-path-vs-relative-path-in-linuxunix/>绝对路径/相对路径</a></p>
+<p>绝对路径即/目录开始的一条完整路径。（绝对路径是唯一的）</p>
+<p>相对路径即当前目录开始的</p>
+</li>
+<li>
+<p>一些命令行</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ ls // 当前目录下的所有文件
+$ go
+$ gofmt xxx // Go 的小工具，用来格式化代码风格、规范
+$ go env
+$ go run
+$ go build
+$ which // 定位命令行文件位置
+
+// 带参数的
+$ go env -w // 设置Go环境变量
+$ go run -n // 打印编译期间所用到的其它命令，但是并不真正执行它们
+</code></pre></div></li>
+</ul>
+<hr>
+<h2 id=go-官网>Go 官网<a hidden class=anchor aria-hidden=true href=#go-官网>#</a></h2>
+<p><a href=https://golang.org/>Golang官网</a> 是个需要翻墙才可以look的地方，不过问题不大</p>
+<p>内含：</p>
+<ul>
+<li>
+<p>Go 各版本的<a href=https://golang.org/doc/install><strong>安装</strong></a></p>
+</li>
+<li>
+<p><a href=https://blog.golang.org/>Go Blog</a></p>
+<p>可以获得一些官方的建议，最新的发展&mldr;&mldr;</p>
+</li>
+<li>
+<p><a href=https://golang.org/doc/><strong>Go 官方文档</strong></a></p>
+<p>东西蛮多的，从Go的安装<del>到卸载</del>到各个阶段的教程都有了</p>
+<p>最主要的是官方的</p>
+<p>比较推荐其中的**<a href=https://golang.org/doc/effective_go.html>Effective go</a>**，算是书写Go语言的规范，建议熟练运用Go之后学习</p>
+</li>
+<li>
+<p><a href=https://play.golang.org/>在线playground</a></p>
+</li>
+<li>
+<p><a href=https://golang.org/project/>更多关于go</a></p>
+</li>
+</ul>
+<h3 id=geting-started>Geting started<a hidden class=anchor aria-hidden=true href=#geting-started>#</a></h3>
+<p><img loading=lazy src=https://s3.ax1x.com/2020/11/15/DP7kNj.png alt=image-20201113163139849>
+</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ vim 1.go // vim 1.c
+
+// coding......
+
+$ go build 1.go // gcc 1.c
+$ ./1 // ./a.out
+
+// 或者
+
+$ go run 1.go // 目前推荐这种方式
+$ go install 1.go // 这个好玩
+
+// end
+</code></pre></div><h2 id=golang>Golang<a hidden class=anchor aria-hidden=true href=#golang>#</a></h2>
+<blockquote>
+<p>无论看哪本入门书籍，他们都会告诉你，Go很棒（当然所有语言的入门书籍都会这么说2333</p>
+</blockquote>
+<ul>
+<li>
+<p>Something about Go</p>
+<p><strong>Less is more.</strong></p>
+<p>C++功能太多了，Go作者也是C++程序员</p>
+<p>讲个小故事</p>
+<pre tabindex=0><code>谷歌大佬从事c++开发（分布式），某一天听说c++又要加新功能，内心疯狂吐槽后找了另外几个大佬，并表明觉得简化c++更棒
+大佬们一拍即合，他们决定开发一门新语言
+经过漫长岁月的发展，Go诞生了
+</code></pre><p><strong>基本的核心特性</strong></p>
+<ul>
+<li>
+<p>简洁，开发效率高</p>
+</li>
+<li>
+<p>内存管理</p>
+</li>
+<li>
+<p><strong>并发编程</strong>，适合高并发</p>
+</li>
+<li>
+<p>静态编译、强类型&mldr;&mldr;</p>
+</li>
+<li>
+<p>混合编程（cgo&mldr;&mldr;）</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Golang is like C</p>
+<p>看哪本书估计也都会提起Go是类C语言</p>
+<p>在学习的时候可能会看到很多和C相似</p>
+<p>这种（类C）语言通常是为某种具体的应用而仿照C语言（语法类似）开发的，所以学过C之后学Go会很快，<del>学过Cpp之后学Go会更快2333</del>。</p>
+</li>
+<li>
+<p>A list of significant simplifications（重要的简化）</p>
+<p>没有头文件</p>
+<p>没有指针运算（no pointer arithmetic）</p>
+<p>自建类型字符串，切片，哈希表（builtin string, slice, map）</p>
+<p>内存0值初始化（memory is always zeroed）</p>
+<p>多返回值</p>
+<p>无循环依赖</p>
+<p>数组越界检查</p>
+<p>&mldr;&mldr;</p>
+</li>
+<li>
+<p><a href=https://commandcenter.blogspot.com/2012/06/less-is-exponentially-more.html>more</a></p>
+</li>
+</ul>
+<h4 id=goenv>GOENV<a hidden class=anchor aria-hidden=true href=#goenv>#</a></h4>
+<p><img loading=lazy src=https://s3.ax1x.com/2020/11/15/DP7aDO.png alt=image-20201113143044644>
+</p>
+<p>都是<code>绝对路径</code>。</p>
+<p>GO111MODULE：go mod，1.11版本后支持</p>
+<p>GOARCH：环境架构</p>
+<p><strong>GOBIN</strong></p>
+<p>GOCACHE：缓存（go build）</p>
+<p>GOHOSTOS：目标操作系统</p>
+<p>GOPROXY：go代理</p>
+<p><strong>GOPATH</strong></p>
+<p><strong>GOROOT</strong></p>
+<p>GOENV：Go环境配置，vim进去就可以看，一般通过 <code>go env -w xxx=xxx</code> 命令行设置的变量都存在里面，不用每次都切环境变量，不过优先度应该是在环境变量下<del>虽然我这台电脑就出现了奇奇怪怪的问题</del>。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ go version
+go version go1.14.10 darwin/amd64
+</code></pre></div><p><a href=https://golang.org/cmd/go/#hdr-Environment_variables>more</a></p>
+<h3 id=goroot>GOROOT<a hidden class=anchor aria-hidden=true href=#goroot>#</a></h3>
+<h4 id=概念goroot就是go的安装目录>概念：GOROOT就是GO的安装目录<a hidden class=anchor aria-hidden=true href=#概念goroot就是go的安装目录>#</a></h4>
+<p>大家写这么久C，但是C都有什么应该还很模糊，但我们可以简单的看看Go都有什么</p>
+<p>GOROOT里有什么：</p>
+<p><img loading=lazy src=https://s3.ax1x.com/2020/11/15/DP7tv6.png alt=image-20201113100054532>
+</p>
+<ul>
+<li>
+<p>api</p>
+<p>罗列了个版本Go api特性啥的，无所谓无所谓</p>
+</li>
+<li>
+<p><strong>bin</strong></p>
+<p>由go官方提供的一些工具的可执行文件</p>
+<p>一般来说：自带的有go, gofmt</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ which go
+/usr/local/go/bin/go
+</code></pre></div></li>
+<li>
+<p>doc</p>
+<p>文档</p>
+<p>示例程序，代码工具，本地文档等</p>
+</li>
+<li>
+<p>version</p>
+<p>版本号（顺便一提自己改是没有用的233）</p>
+</li>
+<li>
+<p>pkg</p>
+<p>存放编译后的包文件</p>
+</li>
+<li>
+<p><strong>src</strong></p>
+<p>标准库函数</p>
+</li>
+<li>
+<p>favicon.ico</p>
+<p>地鼠！</p>
+</li>
+</ul>
+<h3 id=gobin>GOBIN<a hidden class=anchor aria-hidden=true href=#gobin>#</a></h3>
+<h4 id=概念可执行文件目录>概念：可执行文件目录<a hidden class=anchor aria-hidden=true href=#概念可执行文件目录>#</a></h4>
+<p>主要和 go install 相关，放各种go工具的地方</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ go install goexample
+
+$ goexample
+</code></pre></div><h3 id=gopath>GOPATH<a hidden class=anchor aria-hidden=true href=#gopath>#</a></h3>
+<p>GOPATH为 Go 语言的工作区的<strong>集合（意味着可以有很多个）</strong>。工作区类似于工作目录。每个不同的目录之间用<code>：</code>分隔。</p>
+<p>Go 1.11 版本之后引入 Go module，削弱GOPATH的约束</p>
+<p>引自宋汝阳的良好的GOPATH结构（为了避免争议，暂且划分在启用go mod以前）：</p>
+<p><img loading=lazy src=https://s3.ax1x.com/2020/11/15/DP7Ygx.png alt=image-20201113144030923>
+</p>
+<blockquote>
+<p>这个是不是和GOROOT里很像？每个目录代表意思都差不多</p>
+<p>那为什么我们要这么安排？</p>
+</blockquote>
+<p>GO Package 的引入规则</p>
+<p>一般都是找两个地方：</p>
+<p><code>$GOPATH/src/...</code> (from $GOPATH)</p>
+<p><code>$GOROOT/src/...</code> (from $GOROOT)</p>
+<h3 id=go-package>Go Package<a hidden class=anchor aria-hidden=true href=#go-package>#</a></h3>
+<p>我们之前在C语言中可能用到过的，<code>string.h</code>, <code>stdlib.h</code> 这些叫做库函数，在官方库函数之外还有各种各样的 包。</p>
+<p>Go 程序是通过 package 来组织的。</p>
+<p>例如：package 这一行告诉我们当前文件属于哪个包，而包名 main 则告诉我们它是一个可独立运行的包，它在编译后会产生可执行文件。</p>
+<blockquote>
+<p>任何包系统设计的目的都是为了简化大型程序的设计和维护工作，通过将一组相关的特性放进一个独立的单元以便于理解和更新，在每个单元更新的同时保持和程序中其它单元的相对<strong>独立性</strong>。这种<strong>模块化</strong>的特性允许每个包可以被其它的不同项目共享和重用，在项目范围内、甚至全球范围统一的分发和复用。</p>
+<p>每个包一般都定义了一个<strong>不同的名字空间</strong>用于它内部的每个标识符的访问。每个名字空间关联到一个特定的包，让我们给类型、函数等选择简短明了的名字，这样可以避免在我们使用它们的时候减少和其它部分名字的冲突。</p>
+<p>每个包还通过控制包内名字的可见性和是否导出来实现封装特性。通过限制包成员的可见性并隐藏包API的具体实现，将允许包的维护者在不影响外部包用户的前提下调整包的内部实现。通过限制包内变量的可见性，还可以强制用户通过某些特定函数来访问和更新内部变量，这样可以保证内部变量的一致性和并发时的互斥约束。</p>
+<p>&mldr;&mldr;</p>
+</blockquote>
+<h4 id=go-官方包标准库函数>GO 官方包（标准库函数）<a hidden class=anchor aria-hidden=true href=#go-官方包标准库函数>#</a></h4>
+<blockquote>
+<p>$GOROOT/src</p>
+</blockquote>
+<p>学习他：<a href=https://studygolang.com/pkgdoc>在线的，镜像的，官方的，被翻译过的</a></p>
+<h4 id=go-文件>GO 文件<a hidden class=anchor aria-hidden=true href=#go-文件>#</a></h4>
+<p>GO 语言的源码文件主要分为几类：</p>
+<ul>
+<li>
+<p><strong>命令源码文件</strong></p>
+<p>命令源码文件总是作为可执行的程序的入口。</p>
+<p>声明自己属于 main 代码包、 main 函数。</p>
+<p>多个命令源码文件虽然可以分开单独 go run 运行起来，但是无法通过 go build 和 go install。</p>
+<p><strong>main.go</strong></p>
+</li>
+<li>
+<p><strong>库源码文件</strong></p>
+<p>库源码文件一般用于集中放置各种待被使用的程序实体（全局常量、全局变量、接口、结构体、函数等等）。</p>
+</li>
+<li>
+<p><strong>测试源码文件</strong></p>
+<p>测试源码文件主要用于对前两种源码文件中的程序实体的功能和性能进行测试。</p>
+</li>
+</ul>
+<h4 id=一个包是如何组成使用的>一个包是如何组成、使用的<a hidden class=anchor aria-hidden=true href=#一个包是如何组成使用的>#</a></h4>
+<blockquote>
+<p>包是函数和数据的集合。</p>
+<p>我们将会大量的用到各种包，各种途径的。</p>
+</blockquote>
+<ul>
+<li>
+<p>含有Go文件的目录&mldr;&mldr;有可见性的东西（type, function）基本就能当作一个包使用了</p>
+</li>
+<li>
+<p>用 package 关键字定义一个包。文件名不需要与包名一致，但是你的文件夹必须要与包名字一致，这个很重要，所以为了简单起见，名字都是一样的。</p>
+<p>如果你定义好了这个包，那么就可以在外部引用他了</p>
+</li>
+<li>
+<p>食用方法：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>/*                                                    */</span>
+<span style=color:#75715e>/*    $GOPATH/src/github.com/kocoler/share/main.go    */</span>
+<span style=color:#75715e>/*                                                    */</span>
+
+<span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
+
+<span style=color:#f92672>import</span> (
+  <span style=color:#e6db74>&#34;fmt&#34;</span>
+  . <span style=color:#e6db74>&#34;log&#34;</span> <span style=color:#75715e>// 不推荐
+</span><span style=color:#75715e></span>
+	<span style=color:#a6e22e>_</span> <span style=color:#e6db74>&#34;github.com/jinzhu/gorm/dialects/mysql&#34;</span>
+
+  <span style=color:#e6db74>&#34;github.com/kocoler/share/example&#34;</span>
+)
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+  <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Muxi&#34;</span>) <span style=color:#75715e>// fmt.Println()
+</span><span style=color:#75715e></span>  <span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Log Println&#34;</span>) <span style=color:#75715e>// log.Println()
+</span><span style=color:#75715e></span>}
+
+<span style=color:#f92672>------</span>
+
+<span style=color:#75715e>/*                                                               */</span>
+<span style=color:#75715e>/*    $GOPATH/src/github.com/kocoler/share/example/example.go    */</span>
+<span style=color:#75715e>/*                                                               */</span>
+
+<span style=color:#f92672>package</span> <span style=color:#a6e22e>example</span>
+
+<span style=color:#f92672>import</span> <span style=color:#e6db74>&#34;fmt&#34;</span>
+
+<span style=color:#66d9ef>int</span> <span style=color:#a6e22e>A</span> = <span style=color:#ae81ff>0</span><span style=color:#960050;background-color:#1e0010>；</span>
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>init</span>() {
+  <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;I&#39;m initialzing&#34;</span>)
+}
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>PrintA</span>() {
+  <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;example.PrintA() executed&#34;</span>)  
+}
+</code></pre></div></li>
+<li>
+<p>如何找到你想用的包</p>
+<ol>
+<li>谷歌</li>
+<li>Github</li>
+<li><a href=https://pkg.go.dev/>Go dev</a> 最近Go官方也很推这个</li>
+</ol>
+</li>
+<li>
+<p>放到GOPATH中</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>// 比较笨拙的方法...
+$ cd $GOPATH/src/github.com
+$ mkdir go-gorm
+$ cd go-gorm
+$ git clone github.com/go-gorm/gorm
+
+// 或者
+$ go get -t https://github.com/go-gorm/gorm
+
+// 或者 go module, 交给后面的人讲了
+// 各有各的好处，不用纠结，直接auto，项目go mod，学习就off
+</code></pre></div></li>
+<li>
+<p>如何快速的上手/学会用一个包</p>
+<ol>
+<li>
+<p>谷歌</p>
+</li>
+<li>
+<p>Readme, go dev &mldr;&mldr;</p>
+<p>Readme 重点关注quickly start</p>
+</li>
+</ol>
+</li>
+<li>
+<p>不知道包引入路径？</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ go list
+github.com/kocoler/share/example
+
+$ go list log
+log
+</code></pre></div></li>
+</ul>
+<hr>
+<h3 id=执行-example-经历的一小小部分>执行 Example 经历的一小小部分<a hidden class=anchor aria-hidden=true href=#执行-example-经历的一小小部分>#</a></h3>
+<blockquote>
+<p>如果有时间就小小说一下&mldr;..</p>
+<p>无复杂东西</p>
+<p>挺神奇的</p>
+<p>加深理解233</p>
+</blockquote>
+<p>如果你记忆力好一点的话，可能知道C语言的编译过程，当然这无所谓</p>
+<p>// 括号里是生成的</p>
+<p>C/C++：预处理(.i)、编译(.s)、汇编(.o)、链接(.out)</p>
+<p>Go：编译(.a)、链接(.out)</p>
+<blockquote>
+<p>.a文件是什么？</p>
+<p>在Go中我们称.a文件为归档文件（也就是静态文件），简单来说就是放在pkg文件夹里编译好的包</p>
+</blockquote>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$  go run -n main.go
+<span style=color:#75715e>#</span>
+<span style=color:#75715e># command-line-arguments</span>
+<span style=color:#75715e>#</span>
+
+mkdir -p $WORK/b001/  <span style=color:#75715e># 创建临时目录</span>
+
+cat &gt;$WORK/b001/importcfg <span style=color:#e6db74>&lt;&lt; &#39;EOF&#39; # internal 查找依赖信息
+</span><span style=color:#e6db74># import config
+</span><span style=color:#e6db74>packagefile fmt=/usr/local/go/pkg/darwin_amd64/fmt.a
+</span><span style=color:#e6db74>packagefile github.com/jinzhu/gorm/dialects/mysql=/Users/mac/go/pkg/darwin_amd64/github.com/jinzhu/gorm/dialects/mysql.a
+</span><span style=color:#e6db74>packagefile github.com/kocoler/share/example=/Users/mac/Library/Caches/go-build/fc/fc6b2deb1c0f91857e094ad17bbcd48cf4b2b84bf405710663a83dde72aeb6ad-d
+</span><span style=color:#e6db74>packagefile log=/usr/local/go/pkg/darwin_amd64/log.a
+</span><span style=color:#e6db74>packagefile runtime=/usr/local/go/pkg/darwin_amd64/runtime.a
+</span><span style=color:#e6db74>EOF</span>
+
+cd /Users/mac/go/src/github.com/kocoler/share <span style=color:#75715e># 执行源代码编译</span>
+/usr/local/go/pkg/tool/darwin_amd64/compile -o $WORK/b001/_pkg_.a -trimpath <span style=color:#e6db74>&#34;</span>$WORK<span style=color:#e6db74>/b001=&gt;&#34;</span> -p main -complete -buildid YWEJgSlrVcwt0-zEHmU8/YWEJgSlrVcwt0-zEHmU8 -dwarf<span style=color:#f92672>=</span>false -goversion go1.14.10 -D _/Users/mac/go/src/github.com/kocoler/share -importcfg $WORK/b001/importcfg -pack -c<span style=color:#f92672>=</span><span style=color:#ae81ff>4</span> ./main.go
+/usr/local/go/pkg/tool/darwin_amd64/buildid -w $WORK/b001/_pkg_.a <span style=color:#75715e># internal</span>
+
+cat &gt;$WORK/b001/importcfg.link <span style=color:#e6db74>&lt;&lt; &#39;EOF&#39; # internal 收集链接库文件
+</span><span style=color:#e6db74>packagefile command-line-arguments=$WORK/b001/_pkg_.a
+</span><span style=color:#e6db74>packagefile fmt=/usr/local/go/pkg/darwin_amd64/fmt.a
+</span><span style=color:#e6db74>packagefile github.com/jinzhu/gorm/dialects/mysql=/Users/mac/go/pkg/darwin_amd64/github.com/jinzhu/gorm/dialects/mysql.a
+</span><span style=color:#e6db74>packagefile github.com/kocoler/share/example=/Users/mac/Library/Caches/go-build/fc/fc6b2deb1c0f91857e094ad17bbcd48cf4b2b84bf405710663a83dde72aeb6ad-d
+</span><span style=color:#e6db74>packagefile log=/usr/local/go/pkg/darwin_amd64/log.a
+</span><span style=color:#e6db74>......
+</span><span style=color:#e6db74>packagefile vendor/golang.org/x/sys/cpu=/usr/local/go/pkg/darwin_amd64/vendor/golang.org/x/sys/cpu.a
+</span><span style=color:#e6db74>EOF</span>
+
+mkdir -p $WORK/b001/exe/
+cd .
+<span style=color:#75715e># 链接生成可执行文件</span>
+/usr/local/go/pkg/tool/darwin_amd64/link -o $WORK/b001/exe/main -importcfg $WORK/b001/importcfg.link -s -w -buildmode<span style=color:#f92672>=</span>exe -buildid<span style=color:#f92672>=</span>2g1FvKbI5O8czokn17YO/YWEJgSlrVcwt0-zEHmU8/YWEJgSlrVcwt0-zEHmU8/2g1FvKbI5O8czokn17YO -extld<span style=color:#f92672>=</span>clang $WORK/b001/_pkg_.a
+$WORK/b001/exe/main
+</code></pre></div><p>​ &mldr;&mldr;</p>
+<hr>
+<p>一些讨论</p>
+<blockquote>
+<p><a href=https://github.com/golang/go/issues/23439>https://github.com/golang/go/issues/23439</a></p>
+<p><a href=https://stackoverflow.com/questions/25216765/gobin-not-set-cannot-run-go-install>https://stackoverflow.com/questions/25216765/gobin-not-set-cannot-run-go-install</a></p>
+<p>&mldr;&mldr;</p>
+</blockquote>
+</div>
+<footer class=post-footer>
+<div class=share-buttons>
+<a target=_blank rel="noopener noreferrer" aria-label="share Go入门须知 on twitter" href="https://twitter.com/intent/tweet/?text=Go%e5%85%a5%e9%97%a8%e9%a1%bb%e7%9f%a5&url=https%3a%2f%2fkocoler.github.io%2fposts%2fintroduction-to-go%2f&hashtags="><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM195.519 424.544c135.939.0 210.268-112.643 210.268-210.268.0-3.218.0-6.437-.153-9.502 14.406-10.421 26.973-23.448 36.935-38.314-13.18 5.824-27.433 9.809-42.452 11.648 15.326-9.196 26.973-23.602 32.49-40.92-14.252 8.429-30.038 14.56-46.896 17.931-13.487-14.406-32.644-23.295-53.946-23.295-40.767.0-73.87 33.104-73.87 73.87.0 5.824.613 11.494 1.992 16.858-61.456-3.065-115.862-32.49-152.337-77.241-6.284 10.881-9.962 23.601-9.962 37.088.0 25.594 13.027 48.276 32.95 61.456-12.107-.307-23.448-3.678-33.41-9.196v.92c0 35.862 25.441 65.594 59.311 72.49-6.13 1.686-12.72 2.606-19.464 2.606-4.751.0-9.348-.46-13.946-1.38 9.349 29.426 36.628 50.728 68.965 51.341-25.287 19.771-57.164 31.571-91.8 31.571-5.977.0-11.801-.306-17.625-1.073 32.337 21.15 71.264 33.41 112.95 33.41z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share Go入门须知 on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fkocoler.github.io%2fposts%2fintroduction-to-go%2f&title=Go%e5%85%a5%e9%97%a8%e9%a1%bb%e7%9f%a5&summary=Go%e5%85%a5%e9%97%a8%e9%a1%bb%e7%9f%a5&source=https%3a%2f%2fkocoler.github.io%2fposts%2fintroduction-to-go%2f"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share Go入门须知 on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fkocoler.github.io%2fposts%2fintroduction-to-go%2f&title=Go%e5%85%a5%e9%97%a8%e9%a1%bb%e7%9f%a5"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share Go入门须知 on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fkocoler.github.io%2fposts%2fintroduction-to-go%2f"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share Go入门须知 on whatsapp" href="https://api.whatsapp.com/send?text=Go%e5%85%a5%e9%97%a8%e9%a1%bb%e7%9f%a5%20-%20https%3a%2f%2fkocoler.github.io%2fposts%2fintroduction-to-go%2f"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share Go入门须知 on telegram" href="https://telegram.me/share/url?text=Go%e5%85%a5%e9%97%a8%e9%a1%bb%e7%9f%a5&url=https%3a%2f%2fkocoler.github.io%2fposts%2fintroduction-to-go%2f"><svg viewBox="2 2 28 28"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg>
+</a>
+</div>
+</footer>
+</article>
+</main>
+<footer class=footer>
+<span>&copy; 2021 <a href=https://kocoler.github.io>kocoler's blog</a></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a>
+<script>let menu=document.getElementById('menu');menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+<script>document.querySelectorAll('pre > code').forEach(b=>{const c=b.parentNode.parentNode,a=document.createElement('button');a.classList.add('copy-code'),a.innerText='copy';function d(){a.innerText='copied!',setTimeout(()=>{a.innerText='copy'},2e3)}a.addEventListener('click',e=>{if('clipboard'in navigator){navigator.clipboard.writeText(b.textContent),d();return}const a=document.createRange();a.selectNodeContents(b);const c=window.getSelection();c.removeAllRanges(),c.addRange(a);try{document.execCommand('copy'),d()}catch(a){}c.removeRange(a)}),c.classList.contains("highlight")?c.appendChild(a):c.parentNode.firstChild==c||(b.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?b.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(a):b.parentNode.appendChild(a))})</script>
+</body>
+</html>
