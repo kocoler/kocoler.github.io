@@ -1,0 +1,30 @@
+baseURL = 'https://kocoler.github.io'
+languageCode = 'en-us'
+title = "kocoler's blog"
+author = "kocoler"
+theme = "papermod"
+disqusShortname = "kocoler's blog"
+builddrafts = true
+enableEmoji = true
+
+[params]
+showtoc = true
+tocopen = true
+ShowCodeCopyButtons = true
+ShowShareButtons = true
+hideSummary = false
+
+[params.homeInfoParams]
+Title = "Hi there 👋"
+Content = ""
+
+
+[[params.socialIcons]]
+name = "github"
+url  = "https://github.com/kocoler"
+
+[[params.socialIcons]]
+name = "email"
+url = "mailto:tsglsdrs@163.com"
+
+
