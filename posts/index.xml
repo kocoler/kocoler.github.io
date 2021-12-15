@@ -1,10 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Posts on kocoler's blog</title><link>https://kocoler.github.io/posts/</link><description>Recent content in Posts on kocoler's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 29 Jun 2021 21:48:39 +0000</lastBuildDate><atom:link href="https://kocoler.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>MAE + MKE 设计</title><link>https://kocoler.github.io/posts/mae/</link><pubDate>Tue, 29 Jun 2021 21:48:39 +0000</pubDate><guid>https://kocoler.github.io/posts/mae/</guid><description>MAE(MUXI APP ENGINE) 主要分为两个部分：
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Posts on kocoler's blog</title><link>https://kocoler.github.io/posts/</link><description>Recent content in Posts on kocoler's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 07 Oct 2021 21:48:39 +0000</lastBuildDate><atom:link href="https://kocoler.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>浅谈分布式</title><link>https://kocoler.github.io/posts/distribution-system-intor/</link><pubDate>Thu, 07 Oct 2021 21:48:39 +0000</pubDate><guid>https://kocoler.github.io/posts/distribution-system-intor/</guid><description>本文主要科普一下当前比较热门的分布式 主要涉及 分布式基本概念，共识性算法 其实说是科普，但是听完你就可以和绝大部分半调子人聊的有来有回了 ~ 和别人吹水的时候说：诶，你这个考虑分布式了么，是不是很牛的样子？ 虽然我不这么觉得，但是考虑分布式是有必要的 hhh
+分布式 Why we need distribution? (drivens) 开始之前我们先来讨论一下我们为什么分布式
+分享结束之后再看一遍这些问题
+性能 如何做到简单的增加服务器就使性能增强（像 GFS 的假设） 这时候我们需要设计一个架构来将这种能力推进下去
+容错 比如你的两台服务器，挂了一台 如何做到继续可用（当然故障多了就不能用了） 1000台呢（会被无限放大）
+物理分布 地球这么大，你的数据中心一定会分布到不同的地方
+安全性 你这个代码他不安全啊，分布式可以做到某一部分是这个代码，并且挂掉并无影响
+Distribution 分布式系统是由一组通过网络进行通信、为了完成共同的任务而协调工作的计算机节点组成的系统。
+其实分布式很简单，就是多台机子，部署在不同的地方，通过网络通信（大部分都是 RPC）协作
+但是我们需要很多额外的策略
+因为网络是不稳定的，物理上也是不稳定的，节点（机器）是不稳定的
+&amp;hellip;
+这些都要考虑到一个分布式系统的设计上
+一些概念与指标 一致性 这个大概就是最重要的了，分布式系统的行为要表现出一致性 强一致性 就是说如果 A 在 B 之前请求（避免语义问题，这里是达到服务器），那么 B 得到的结果一定是 A 之后的状态。 弱一致性 弱一致性其实是很拥有的 比如当副本很远的时候可以采取最近节点通信的方式，你可能不会 get 到最新的 key，但是绝大部分场景都是对的，并且有良好的速度，以及低成本（相对强一致性） 可用性 在特定的错误类型下，系统仍然能够正常运行，仍然可以像没有出现错误一样，为你提供完整的服务。</description></item><item><title>MAE + MKE 设计</title><link>https://kocoler.github.io/posts/mae/</link><pubDate>Tue, 29 Jun 2021 21:48:39 +0000</pubDate><guid>https://kocoler.github.io/posts/mae/</guid><description>MAE(MUXI APP ENGINE) 主要分为两个部分：
 基础业务 集群管理 对应 Github 上的 specs Github 上为英文版本
 因为历史原因，项目基本结构并不是 DDD 但是大部分分包也是比较清晰的，虽然并不指望有人维护，这也是代码里要更多考虑 自恢复/差错容忍/其他人为外部运维因素 的原因 部分设计参考阿里成熟的开源项目 kubevela 项目代码清晰，符合普遍的社区标准 但是目前还未开源&amp;hellip; 此介绍文档还在不断更新，如果更新了设计，以及我想更新哈哈哈qwq
 技术选用:
 Mysql 因为本项目大部分数据的数据模型都是关系模型，所以选用了较为熟悉的 RDB Mysql, Gorm 作为 orm 框架 Redis 本项目需要最基本的 业务层缓存 以及 轻量消息队列作为缓冲，所以选用了较为熟悉的 Redis Client-go 管理集群是本项目核心部分，目前团队基本所有服务都部署与 k3s(更轻量的 k8s，减少服务器负载) 管理的集群上，所以选用 client-go 作为项目与集群的交互的 k8s SDK Gin 为本项目的 Web 框架 重点：
-关于集群管理 关于分布式场景下一致性的讨论 至于为什么会涉及到分布式场景，作为一个基于 k8s 上的服务，不天然支持分布式不太好对不对 hhh，也许是过度设计，但是考虑这些是十分有必要的
-基础业务 用户系统 最基本的用户系统，以及鉴权 接入团队 OAuth2.</description></item><item><title>Go入门须知</title><link>https://kocoler.github.io/posts/introduction-to-go/</link><pubDate>Sun, 15 Nov 2020 12:37:00 +0000</pubDate><guid>https://kocoler.github.io/posts/introduction-to-go/</guid><description>GOLANG, GOPATH, GOROOT &amp;hellip;&amp;hellip;
+关于集群管理 关于某些场景下一致性的讨论 基础业务 用户系统 最基本的用户系统，以及鉴权 接入团队 OAuth2.0 接口，设计实现 OAuth Interface，符合规范，便于接入其他的 OAuth 认证平台</description></item><item><title>Go入门须知</title><link>https://kocoler.github.io/posts/introduction-to-go/</link><pubDate>Sun, 15 Nov 2020 12:37:00 +0000</pubDate><guid>https://kocoler.github.io/posts/introduction-to-go/</guid><description>GOLANG, GOPATH, GOROOT &amp;hellip;&amp;hellip;
 预备知识 后面可能会用到，用到的时候再回来看
 环境变量（Environment Variable）
 环境变量相当于给系统或用户应用程序设置的一些参数
