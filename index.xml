@@ -39,16 +39,4 @@ ELK-Stack(elastic stack)
 Logstash：数据收集，处理和储存
 Elasticsearch：检索和分析
 Kibana：可视化
-Beats：轻量级（资源高效，无依赖性，小型）的日志发送程序。收集数据 &amp;ndash;&amp;gt; Logstash （建立在名为libbeat的Go框架之上</description></item><item><title>简述几种常见的树</title><link>https://kocoler.github.io/posts/learning-tree/</link><pubDate>Sun, 29 Mar 2020 21:48:39 +0000</pubDate><guid>https://kocoler.github.io/posts/learning-tree/</guid><description>1. 树 它是由n（n&amp;gt;=1）个有限结点组成一个具有层次关系的集合。
-节点 子节点 父节点 根节点 节点的度：含有子树的个数 层 高度/深度 森林 应用范围很广
-2. 树的几种常见类型 二叉树
-完全二叉树
-堆（优先队列的高效实现方式） 霍夫曼树 二叉搜索树
-平衡二叉搜索树
-红黑树
-N叉树
-B树 B+树 前缀树（ 字典树、Trie ）
-后缀树
-3. 从最单纯的二叉树开始 特点：有一个根节点，最多只有两个孩子（两棵子树），左孩子和右孩子，即有序的
-主要算法：
-四种遍历方式（一般采用递归）： 前序遍历：根左右 中序遍历：左根右 后序遍历：左右根 层序遍历：左顾右盼 增删查：BFS/DFS暴力，拼接 type treeNode struct { value interface{} leftchild *treeNode rightchild *treeNode //high int //leftSize int //other things } 主要应用：表示结构层次与逻辑，三种遍历方式形成的前缀式、中缀式、后缀式可以表示运算和各种用途</description></item><item><title>Golang 官方标准库学习</title><link>https://kocoler.github.io/posts/learning-go-package/</link><pubDate>Sat, 07 Dec 2019 23:49:49 +0000</pubDate><guid>https://kocoler.github.io/posts/learning-go-package/</guid><description>Go源码中带有的所有官方标准库，基于 1.10 版本的 Go 源码。</description></item></channel></rss>
+Beats：轻量级（资源高效，无依赖性，小型）的日志发送程序。收集数据 &amp;ndash;&amp;gt; Logstash （建立在名为libbeat的Go框架之上</description></item><item><title>Golang 官方标准库学习</title><link>https://kocoler.github.io/posts/learning-go-package/</link><pubDate>Sat, 07 Dec 2019 23:49:49 +0000</pubDate><guid>https://kocoler.github.io/posts/learning-go-package/</guid><description>Go源码中带有的所有官方标准库，基于 1.10 版本的 Go 源码。</description></item></channel></rss>
